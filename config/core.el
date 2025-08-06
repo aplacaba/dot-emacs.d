@@ -28,7 +28,9 @@
    pixel-scroll-precision-mode t
    warning-minimum-level :emergency
    tab-always-indent 'complete
-   auth-sources "~/.authinfo"))
+   display-time-default-load-average nil
+   auth-sources "~/.authinfo"
+   custom-file "~/projects/emacs/custom.el"))
 
 ;; magit
 (use-package magit
