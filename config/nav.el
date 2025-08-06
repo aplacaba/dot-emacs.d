@@ -3,7 +3,9 @@
 ;;; Moving around
 ;;; Code:
 
-(use-package rg)
+(use-package rg
+  :init
+  (rg-enable-default-bindings))
 
 (use-package avy
   :config

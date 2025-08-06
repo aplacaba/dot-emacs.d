@@ -8,7 +8,7 @@
     ("gnu" . "https://elpa.gnu.org/packages/")
     ("melpa stable" . "http://stable.melpa.org/packages/")))
 
-(defvar my/emacs-source-path "~/projects/emacs/config")
+(defvar my/emacs-source-path "~/.emacs.d/config")
 
 ;; configure use-package
 

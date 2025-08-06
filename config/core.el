@@ -21,11 +21,8 @@
    case-fold-search  nil
    global-auto-revert-mode nil
    initial-major-mode 'org-mode
-   global-hl-line-mode t
-   electric-pair-mode t
    column-number-mode t
    cursor-type 'box
-   pixel-scroll-precision-mode t
    warning-minimum-level :emergency
    tab-always-indent 'complete
    display-time-default-load-average nil

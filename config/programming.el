@@ -3,6 +3,12 @@
 ;;; Coding setup
 ;;; Code:
 
+
+;; auto close parens
+(electric-pair-mode 1)
+(global-hl-line-mode 1)
+(pixel-scroll-precision-mode)
+
 ;; Indent hints
 (use-package indent-bars
   :custom
