@@ -21,18 +21,13 @@
    case-fold-search  nil
    global-auto-revert-mode nil
    initial-major-mode 'org-mode
-   display-time-mode t
-   display-time-default-load-average nil
-   display-time-format "%H:%M"
    global-hl-line-mode t
    electric-pair-mode t
    column-number-mode t
    cursor-type 'box
    pixel-scroll-precision-mode t
    warning-minimum-level :emergency
-   tab-always-indent 'complete
-   custom-file "~/.emacs.d/custom.el"))
-
+   tab-always-indent 'complete))
 
 ;; magit
 (use-package magit
@@ -164,6 +159,13 @@
   :config
   (which-key-mode)
   (which-key-setup-side-window-bottom))
+
+
+;; terminal goodies
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (exec-path-from-shell-initialize))
 
 
 (provide 'core)
