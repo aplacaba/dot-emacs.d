@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package org
-  :ensure t
   :init
   (setopt
    org-display-remote-inline-images 'download
@@ -15,11 +14,9 @@
   (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c C-;") 'org-todo))
 
-(use-package org-download
-  :ensure t)
+(use-package org-download)
 
 (use-package denote
-  :ensure t
   :init
   (setopt
    denote-directory (expand-file-name "~/.notes/")
@@ -27,5 +24,5 @@
    denote-known-keywords '("work" "personal" "finance" "urgent"))
   (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories))
 
-
 (provide 'notes)
+;;; notes.el ends here

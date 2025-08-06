@@ -12,7 +12,6 @@
   ;; Add other languages as needed
   (indent-bars-treesit-scope '((python function_definition class_definition for_statement
 	  if_statement with_statement while_statement)))
-  :ensure t
   :hook
   ((yaml-mode python-mode). indent-bars-mode))
 
@@ -20,13 +19,11 @@
 (use-package yaml-mode
   :mode "\\.yml\\'"
   :mode "\\.yaml\\'"
-  :ensure t
   :hook
   (yaml-ts-mode . yaml-mode))
 
 ;; web / js
 (use-package json-mode
-  :ensure t
   :init
   (setopt js-indent-level 2))
 
@@ -36,35 +33,28 @@
   :mode "\\.html\\'"
   :mode "\\.css?\\'"
   :mode "\\.scss?\\'"
-  :ensure t
   :commands web-mode
   :custom
   (web-mode-markup-indent-offset 2)
   (web-mode-css-indent-offset 2)
   (web-mode-code-indent-offset 2))
 
-(use-package js2-mode
-  :ensure t)
+(use-package js2-mode)
 
-(use-package emmet-mode
-  :ensure t)
+(use-package emmet-mode)
 
 ;; clojure
-(use-package cider
- :ensure t)
+(use-package cider)
 
 (use-package clojure-mode
-  :ensure t
   :hook
   (clojure-mode . cider-mode))
 
 ;; ruby
 
-(use-package ruby-end
-  :ensure t)
+(use-package ruby-end)
 
 (use-package ruby-ts-mode
-  :ensure t
   :mode "\\.rb\\'"
   :mode "Rakefile\\'"
   :mode "Gemfile\\'"
@@ -75,8 +65,7 @@
   (ruby-ts-mode . ruby-end-mode))
 
 ;; elixir
-(use-package elixir-ts-mode
-  :ensure t)
+(use-package elixir-ts-mode)
 
 (add-to-list 'elixir-ts-mode-hook
              (defun auto-activate-ruby-end-mode-for-elixir-mode ()
@@ -111,13 +100,11 @@
 ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
 
 (use-package treesit-auto
-  :ensure t
   :init
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
 (use-package flycheck
-  :ensure t
   :init
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-add-mode 'typescript-tslint 'web-mode)

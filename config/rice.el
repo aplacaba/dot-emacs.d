@@ -38,8 +38,6 @@
   :init
   (doom-modeline-mode 1))
 
-
-
 ;; all the icons
 (use-package all-the-icons)
 
@@ -58,7 +56,7 @@
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
-;; ensure fullscreen on start
+;; fullscreen on start
 (toggle-frame-maximized)
 
 ;; display time

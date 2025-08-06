@@ -34,8 +34,6 @@
 
 ;; magit
 (use-package magit
-  :ensure t
-  :defer t
   :config
   ;;(setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
   (setq transient-default-level 7)
@@ -46,14 +44,12 @@
 
 ;; vterm
 (use-package vterm
-  :ensure t
   :config
   (setq vterm-max-scrollback 10000)
   (setq vterm-kill-buffer-on-exit t)
   (global-set-key (kbd "C-c t") 'vterm-copy-mode))
 
 (use-package vterm-toggle
-  :ensure t
   :config
   (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (global-set-key (kbd "s-t") 'vterm-toggle)
@@ -65,12 +61,10 @@
 
 ;; corfu, orderless, consult, dabbrev, cape
 (use-package vertico
-  :ensure t
   :init
   (vertico-mode))
 
 (use-package corfu
-  :ensure t
   :custom
   (corfu-auto t)
   (corfu-quit-no-match 'separator)
@@ -78,14 +72,12 @@
   (global-corfu-mode))
 
 (use-package orderless
-  :ensure t
   :custom
   (completion-styles '(orderless basic))
   (setq orderless-component-separator "[ &]")
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package consult
-  :ensure t
   :bind
   ("C-x b" . consult-buffer)
   ("C-c s" . consult-ripgrep)
@@ -116,7 +108,6 @@
 
 ;; Add extensions
 (use-package cape
-  :ensure t
   ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
   ;; Press C-c p ? to for help.
   :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+
@@ -148,7 +139,6 @@
 
 ;; ultra-scroll
 (use-package ultra-scroll
-  :ensure t
   :init
   (setq scroll-conservatively 3 ; or whatever value you prefer, since v0.4
         scroll-margin 0)        ; important: scroll-margin>0 not yet supported
@@ -158,7 +148,6 @@
 
 ;; which-key
 (use-package which-key
-  :ensure t
   :config
   (which-key-mode)
   (which-key-setup-side-window-bottom))
@@ -166,9 +155,9 @@
 
 ;; terminal goodies
 (use-package exec-path-from-shell
-  :ensure t
   :init
   (exec-path-from-shell-initialize))
 
 
 (provide 'core)
+;;; core.el ends here
