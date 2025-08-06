@@ -23,7 +23,7 @@
    initial-major-mode 'org-mode
    display-time-mode t
    display-time-default-load-average nil
-   display-time-format "%H:%M:%S %a,%d %b %Y"
+   display-time-format "%H:%M"
    global-hl-line-mode t
    electric-pair-mode t
    column-number-mode t
