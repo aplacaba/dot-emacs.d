@@ -27,7 +27,8 @@
    cursor-type 'box
    pixel-scroll-precision-mode t
    warning-minimum-level :emergency
-   tab-always-indent 'complete))
+   tab-always-indent 'complete
+   auth-sources "~/.authinfo"))
 
 ;; magit
 (use-package magit
