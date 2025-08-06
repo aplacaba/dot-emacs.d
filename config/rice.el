@@ -35,30 +35,26 @@
 
 ;; doom modeline
 (use-package doom-modeline
-  :ensure t
   :init
   (doom-modeline-mode 1))
 
 
+
 ;; all the icons
-(use-package all-the-icons
-  :ensure t)
+(use-package all-the-icons)
 
 
 ;; hide these modes
 (use-package diminish
-  :ensure t
   :commands diminish
   :init
   (diminish 'auto-revert-mode)
-  (diminish 'flycheck-mode)
   (diminish 'eldoc-mode)
   (diminish 'which-key-mode))
 
 
 ;; rainbow delimiters
 (use-package rainbow-delimiters
-  :ensure t
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
@@ -67,9 +63,8 @@
 
 ;; display time
 
-(setq display-time-format "%H:%M"
-      display-time-mode t
-      display-time-default-load-average nil)
+(setopt display-time-format "%H:%M"
+        display-time-mode t)
 
 (provide 'rice)
 ;;; rice.el ends here
