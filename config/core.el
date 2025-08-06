@@ -45,6 +45,7 @@
 ;; vterm
 (use-package vterm
   :config
+  (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (setq vterm-max-scrollback 10000)
   (setq vterm-kill-buffer-on-exit t)
   (global-set-key (kbd "C-c t") 'vterm-copy-mode))
