@@ -2,19 +2,36 @@
 ;;; Commentary:
 ;;; Code:
 
-;; theme
+;; modus themes and org improvements
+(setq modus-themes-mode-line '(accented borderless)
+      modus-themes-bold-constructs t
+      modus-themes-italic-constructs t
+      modus-themes-fringes 'subtle
+      modus-themes-tabs-accented t
+      modus-themes-paren-match '(bold intense)
+      modus-themes-prompts '(bold intense)
+      modus-themes-completions 'opinionated
+      modus-themes-org-blocks 'tinted-background
+      modus-themes-scale-headings t
+      modus-themes-region '(bg-only)
+      modus-themes-to-toggle '(modus-operandi-tritanopia modus-vivendi-tritanopia)
+      modus-themes-headings
+      '((1 . (rainbow overline background 1.4))
+        (2 . (rainbow background 1.3))
+        (3 . (rainbow bold 1.2))
+        (t . (semilight 1.1))))
+
 (load-theme 'modus-vivendi-tritanopia)
 (fringe-mode +1)
-
 
 ;; font
 (set-face-attribute 'default nil
                     ;;:family "Iosevka Comfy"
-                    :family "JetBrains Mono"
+                    :family "DejavuSans Mono"
                     :weight 'regular
-                    :height 170)
+                    :height 110)
 
-(setq-default line-spacing 3)
+(setq-default line-spacing 1)
 
 ;; doom modeline
 (use-package doom-modeline
@@ -45,6 +62,14 @@
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
+;; ensure fullscreen on start
+(toggle-frame-maximized)
+
+;; display time
+
+(setq display-time-format "%H:%M"
+      display-time-mode t
+      display-time-default-load-average nil)
 
 (provide 'rice)
 ;;; rice.el ends here
