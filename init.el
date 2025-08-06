@@ -29,7 +29,6 @@
   (require 'core)        ;; emacs
   (require 'rice)        ;; looks
   (require 'nav)         ;; navigation
-  (require 'text)        ;; text editing
   (require 'notes)       ;; note taking
   (require 'devops)      ;; devops config
   (require 'programming) ;; programming
