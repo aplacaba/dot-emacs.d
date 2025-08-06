@@ -16,7 +16,7 @@
   (split-window-horizontally) (other-window 1))
 
 (global-set-key "\C-x2" #'vertical-split)
-(global-set-key "\C-x2" #'horizontal-split)
+(global-set-key "\C-x3" #'horizontal-split)
 (global-set-key (kbd "M-o") 'other-window)
 
 ;; buffer
@@ -35,3 +35,4 @@
 (global-unset-key (kbd "C-<down-mouse-1>"))
 
 (provide 'bindings)
+;;; bindings.el ends here
