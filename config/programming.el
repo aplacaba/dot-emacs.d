@@ -116,4 +116,33 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
+(use-package flycheck
+  :ensure t
+  :init
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-add-mode 'typescript-tslint 'web-mode)
+  (flycheck-add-mode 'cfn-lint 'cfn-yaml-mode)
+  :hook
+  (after-init . global-flycheck-mode))
+
+(when (featurep 'flycheck)
+  (flycheck-define-checker cfn-lint
+    "AWS CloudFormation linter using cfn-lint.
+Install cfn-lint first: pip install cfn-lint
+See `https://github.com/aws-cloudformation/cfn-python-lint'."
+
+    :command ("~/.local/bin/cfn-lint" "-f" "parseable" source)
+    :error-patterns ((warning line-start (file-name) ":" line ":" column
+                              ":" (one-or-more digit) ":" (one-or-more digit) ":"
+                              (id "W" (one-or-more digit)) ":" (message) line-end)
+                     (error line-start (file-name) ":" line ":" column
+                            ":" (one-or-more digit) ":" (one-or-more digit) ":"
+                            (id "E" (one-or-more digit)) ":" (message) line-end))
+    :modes (cfn-yaml-mode))
+
+  (add-to-list 'flycheck-checkers 'cfn-lint)
+  (add-hook 'cfn-yaml-mode-hook 'flycheck-mode))
+
+
 (provide 'programming)
+;;; programming.el ends here
