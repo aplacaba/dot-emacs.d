@@ -1,0 +1,48 @@
+;;; init.el --- Emacs Config
+;;; Commentary:
+;;; Code:
+(require 'package)
+
+(defvar my/pkg-source
+  '(("melpa" . "http://melpa.org/packages/")
+    ("gnu" . "https://elpa.gnu.org/packages/")
+    ("melpa stable" . "http://stable.melpa.org/packages/")))
+
+(defvar my/emacs-source-path "~/projects/emacs/config")
+(defvar is-windows (eq system-type 'windows))
+(defvar is-mac (eq system-type 'darwin))
+
+;; configure use-package
+
+(setopt package-archives my/pkg-source)
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+(add-to-list 'load-path my/emacs-source-path)
+
+;; load config
+(progn
+  (require 'core)        ;; emacs
+  (require 'rice)        ;; looks
+  (require 'nav)         ;; navigation
+  (require 'text)        ;; text editing
+  (require 'notes)       ;; note taking
+  (require 'devops)      ;; devops config
+  (require 'programming) ;; programming
+  (require 'llisp)       ;; lisp config
+  (require 'bindings)    ;; key bindings
+
+  (when is-windows
+    (require 'windows))
+
+  (when is-mac
+    (require 'mac)))
+
+(provide 'init)
+;;; init.el ends here

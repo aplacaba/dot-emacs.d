@@ -1,0 +1,13 @@
+* Emacs Config
+** Contents
+*** core
+Core Emacs configuration
+
+What I consider core part of my configuration
+
+- Terminal
+- Magit
+- Emacs conf
+- Completion (corfu, orderless, cape, dabbrev)
+- Ibuffer
+***
