@@ -1,13 +1,16 @@
 * Emacs Config
 ** Contents
-*** core
-Core Emacs configuration
+*** core.el
+Emacs config for QoL improvements
 
 What I consider core part of my configuration
 
-- Terminal
+- Vterm
 - Magit
 - Emacs conf
-- Completion (corfu, orderless, cape, dabbrev)
+- QoL packages (vertico, corfu, orderless, cape, dabbrev)
 - Ibuffer
+*** rice.el
+Config for visuals
+
 ***
