@@ -27,7 +27,7 @@
    tab-always-indent 'complete
    display-time-default-load-average nil
    auth-sources "~/.authinfo"
-   custom-file "~/projects/emacs/custom.el"))
+   custom-file "~/.emacs.d/custom.el"))
 
 ;; magit
 (use-package magit
@@ -39,22 +39,23 @@
    ("C-x g" . magit-status)))
 
 
-;; vterm
-(use-package vterm
-  :config
-  (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
-  (setq vterm-max-scrollback 10000)
-  (setq vterm-kill-buffer-on-exit t)
-  (global-set-key (kbd "C-c t") 'vterm-copy-mode))
+;; vterm (unix-type only)
+(unless is-windows
+  (use-package vterm
+    :config
+    (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
+    (setq vterm-max-scrollback 10000)
+    (setq vterm-kill-buffer-on-exit t)
+    (global-set-key (kbd "C-c t") 'vterm-copy-mode))
 
-(use-package vterm-toggle
-  :config
-  (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
-  (global-set-key (kbd "s-t") 'vterm-toggle)
-  (global-set-key (kbd "C-M-t") 'vterm-toggle-cd)
-  (define-key vterm-mode-map [(control return)]   #'vterm-toggle-insert-cd)
-  (define-key vterm-mode-map (kbd "s-n")   'vterm-toggle-forward)
-  (define-key vterm-mode-map (kbd "s-p")   'vterm-toggle-backward))
+  (use-package vterm-toggle
+    :config
+    (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
+    (global-set-key (kbd "s-t") 'vterm-toggle)
+    (global-set-key (kbd "C-M-t") 'vterm-toggle-cd)
+    (define-key vterm-mode-map [(control return)]   #'vterm-toggle-insert-cd)
+    (define-key vterm-mode-map (kbd "s-n")   'vterm-toggle-forward)
+    (define-key vterm-mode-map (kbd "s-p")   'vterm-toggle-backward)))
 
 
 ;; corfu, orderless, consult, dabbrev, cape

@@ -9,6 +9,8 @@
     ("melpa stable" . "http://stable.melpa.org/packages/")))
 
 (defvar my/emacs-source-path "~/.emacs.d/config")
+(defvar is-windows (eq system-type 'windows-nt))
+(defvar is-mac (eq system-type 'darwin))
 
 ;; configure use-package
 
@@ -35,10 +37,10 @@
   (require 'llisp)       ;; lisp config
   (require 'bindings)    ;; key bindings
 
-  (when (eq system-type 'windows)
+  (when is-windows
     (require 'windows))
 
-  (when (eq system-type 'darwin)
+  (when is-mac
     (require 'mac)))
 
 (provide 'init)

@@ -3,7 +3,11 @@
 ;;; Code:
 
 ;; commonlisp tooling
-(load (expand-file-name "~/.roswell/helper.el"))
+
+(if is-windows
+    (load (expand-file-name "C:/Users/A/.roswell/helper.el"))
+  (load (expand-file-name "~/.roswell/helper.el")))
+
 (setq
   inferior-lisp-program ""
   slime-lisp-implementations '((sbcl ("ros" "-Q" "run") :coding-system utf-8-unix)
