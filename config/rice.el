@@ -21,15 +21,15 @@
         (3 . (rainbow bold 1.2))
         (t . (semilight 1.1))))
 
-(load-theme 'modus-vivendi-tritanopia)
+(load-theme 'modus-operandi-tritanopia)
 (fringe-mode +1)
 
 ;; font
 (set-face-attribute 'default nil
-                    :family "DejavuSansMNerdFont"
+                    :family "CommitMono"
 		    ;;:family "DejavuSans Mono"
                     :weight 'regular
-                    :height 130)
+                    :height 110)
 
 (setq-default line-spacing 3)
 
