@@ -26,17 +26,17 @@
 
 ;; font
 (set-face-attribute 'default nil
-                    :family "CommitMono"
-		    ;;:family "DejavuSans Mono"
+                    ;;:family "Iosevka Comfy"
+		    :family "DejavuSans Mono"
                     :weight 'regular
-                    :height 110)
+                    :height 105)
 
-(setq-default line-spacing 3)
+(setq-default line-spacing 2)
 
 ;; doom modeline
-(use-package doom-modeline
-  :init
-  (doom-modeline-mode 1))
+;; (use-package doom-modeline
+;;   :init
+;;   (doom-modeline-mode 1))
 
 ;; all the icons
 (use-package all-the-icons)
