@@ -3,6 +3,8 @@
 ;;; Moving around
 ;;; Code:
 
+(pixel-scroll-precision-mode)
+
 (use-package rg
   :init
   (rg-enable-default-bindings))

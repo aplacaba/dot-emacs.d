@@ -136,17 +136,6 @@
         (completion-category-overrides nil))
     (consult-line)))
 
-
-;; ultra-scroll
-(use-package ultra-scroll
-  :init
-  (setq scroll-conservatively 1 ; or whatever value you prefer, since v0.4
-        scroll-margin 0)        ; important: scroll-margin>0 not yet supported
-  :config
-  (add-hook 'ultra-scroll-hide-functions 'hl-line-mode)
-  (ultra-scroll-mode 1))
-
-
 ;; which-key
 (use-package which-key
   :config
