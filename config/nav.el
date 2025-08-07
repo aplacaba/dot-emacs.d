@@ -20,3 +20,4 @@
   (global-set-key (kbd "C-x o") 'switch-window))
 
 (provide 'nav)
+;;; nav.el ends here
