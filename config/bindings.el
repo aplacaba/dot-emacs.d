@@ -21,6 +21,7 @@
 
 ;; buffer
 (global-set-key (kbd "C-c r") 'rename-buffer)
+(global-set-key (kbd "C-c v") 'vundo)
 (define-key global-map [remap list-buffers] 'ibuffer)
 
 ;; themes

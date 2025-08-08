@@ -21,5 +21,7 @@
   (setq switch-window-input-style 'minibuffer)
   (global-set-key (kbd "C-x o") 'switch-window))
 
+(use-package vundo)
+
 (provide 'nav)
 ;;; nav.el ends here

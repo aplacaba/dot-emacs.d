@@ -27,7 +27,7 @@
 ;; font
 (set-face-attribute 'default nil
                     ;;:family "Iosevka Comfy"
-		    :family "DejavuSans Mono"
+		    :family "DejavuSansMNerdFont"
                     :weight 'regular
                     :height 105)
 
