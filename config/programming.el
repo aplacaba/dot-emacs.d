@@ -134,6 +134,9 @@ See `https://github.com/aws-cloudformation/cfn-python-lint'."
   (add-to-list 'flycheck-checkers 'cfn-lint)
   (add-hook 'cfn-yaml-mode-hook 'flycheck-mode))
 
+(use-package devdocs)
+(use-package yasnippet)
+
 
 (provide 'programming)
 ;;; programming.el ends here

@@ -27,6 +27,9 @@
 ;; themes
 (global-set-key (kbd "C-c m m") 'modus-themes-toggle)
 
+;;
+(global-set-key (kbd "C-h d") 'devdocs-lookup)
+
 ;; denote shortcuts
 (global-set-key (kbd "C-x C-n") 'find-file)
 (global-set-key (kbd "C-c n n") 'denote)

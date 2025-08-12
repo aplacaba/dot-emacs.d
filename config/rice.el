@@ -34,9 +34,9 @@
 (setq-default line-spacing 2)
 
 ;; doom modeline
-;; (use-package doom-modeline
-;;   :init
-;;   (doom-modeline-mode 1))
+(use-package doom-modeline
+  :init
+  (doom-modeline-mode 1))
 
 ;; all the icons
 (use-package all-the-icons)
