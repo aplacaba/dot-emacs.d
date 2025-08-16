@@ -24,5 +24,6 @@ ripgrep
 #+END_SRC
 ** Customizations
 
-Refer to `mac.el` for mac specific config
-Refer to `windows.el` for windows specific config
+Refer to =mac.el= for mac specific config
+
+Refer to =windows.el= for windows specific config
