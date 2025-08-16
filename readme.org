@@ -1,16 +1,28 @@
 * Emacs Config
-** Contents
-*** core.el
-Emacs config for QoL improvements
+** Requirements
 
-What I consider core part of my configuration
+Tested on the following operating systems:
+- Fedora 42
+- MacOS 15
+- Windows 11
 
-- Vterm
-- Magit
-- Emacs conf
-- QoL packages (vertico, corfu, orderless, cape, dabbrev)
-- Ibuffer
-*** rice.el
-Config for visuals
+To install please ensure the following are installed (linux / mac only):
 
-***
+vterm
+#+BEGIN_SRC sh
+sudo dnf install libvterm
+#+END_SRC
+
+sbcl
+#+BEGIN_SRC sh
+  brew install roswell
+#+END_SRC
+
+ripgrep
+#+BEGIN_SRC rg
+  sudo dnf install ripgrep
+#+END_SRC
+** Customizations
+
+Refer to `mac.el` for mac specific config
+Refer to `windows.el` for windows specific config
