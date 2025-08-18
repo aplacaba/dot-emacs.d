@@ -26,6 +26,7 @@
    warning-minimum-level :emergency
    tab-always-indent 'complete
    display-time-default-load-average nil
+   display-time-mail-string ""
    auth-sources "~/.authinfo"
    custom-file "~/.emacs.d/custom.el"))
 
@@ -43,9 +44,10 @@
 (use-package vterm
   :unless is-windows
   :config
-  (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (setq vterm-max-scrollback 10000)
   (setq vterm-kill-buffer-on-exit t)
+  (setq vterm-buffer-name-string "vterm - %s")
+  (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (global-set-key (kbd "C-c t") 'vterm-copy-mode))
 
 (use-package vterm-toggle
