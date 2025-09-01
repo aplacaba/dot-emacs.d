@@ -27,11 +27,11 @@
 ;; font
 (set-face-attribute 'default nil
                     ;;:family "Iosevka Comfy"
-		    :family "DejavuSansMNerdFont"
-                    :weight 'regular
-                    :height 105)
+		    :family "DejavuSansMNerdFontMono"
+		    :weight 'regular
+                    :height 110)
 
-(setq-default line-spacing 2)
+(setq-default line-spacing 1)
 
 ;; doom modeline
 (use-package doom-modeline

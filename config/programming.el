@@ -138,5 +138,16 @@ See `https://github.com/aws-cloudformation/cfn-python-lint'."
 (use-package yasnippet)
 
 
+(defun my/gemini-api-key ()
+  (exec-path-from-shell-copy-env "GEMINI_KEY")
+  (getenv "GEMINI_KEY"))
+
+(use-package gptel
+  :config
+  (setq gptel-model "gemini-2.5-flash"
+	gptel-backend (gptel-make-gemini "Gemini" :key (my/gemini-api-key) :stream t)
+	gptel-default-mode 'org-mode))
+
+
 (provide 'programming)
 ;;; programming.el ends here
