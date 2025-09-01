@@ -137,6 +137,13 @@ See `https://github.com/aws-cloudformation/cfn-python-lint'."
 (use-package devdocs)
 (use-package yasnippet)
 
+;; docs
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown")
+  :bind (:map markdown-mode-map
+         ("C-c C-e" . markdown-do)))
 
 (defun my/gemini-api-key ()
   (exec-path-from-shell-copy-env "GEMINI_KEY")

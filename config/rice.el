@@ -28,8 +28,8 @@
 (set-face-attribute 'default nil
                     ;;:family "Iosevka Comfy"
 		    :family "DejavuSansMNerdFontMono"
-		    :weight 'regular
-                    :height 110)
+                    :weight 'regular
+                    :height 105)
 
 (setq-default line-spacing 1)
 
