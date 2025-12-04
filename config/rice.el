@@ -1,4 +1,4 @@
-;;; rice.el --- Ricing
+';;; rice.el --- Ricing
 ;;; Commentary:
 ;;; Code:
 
@@ -21,7 +21,7 @@
         (3 . (rainbow bold 1.2))
         (t . (semilight 1.1))))
 
-(load-theme 'modus-operandi-tritanopia)
+(load-theme 'modus-vivendi-tritanopia)
 (fringe-mode +1)
 
 ;; font
@@ -56,38 +56,17 @@
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+
 ;; display time
 
 (setopt display-time-format "%H:%M"
         display-time-mode t)
-
-;; persist size on restarts
-(when (display-graphic-p)
-  (defconst my/frame-save-position-size-file
-    "~/.emacs.d/frame-save-position-size-file.el")
-
-  (add-hook 'emacs-startup-hook
-            #'(lambda ()
-                (when (file-exists-p my/frame-save-position-size-file)
-                  (load-file my/frame-save-position-size-file))))
-  (add-hook 'kill-emacs-hook
-            #'(lambda ()
-                (let* ((props
-                        '(left top width height))
-                       (values
-                        (mapcar #'(lambda (parameter)
-                                    (let ((value
-                                           (frame-parameter (selected-frame) parameter)))
-                                      (if (number-or-marker-p value)
-                                          (max value 0)
-                                        0))) props)))
-                  (with-temp-buffer
-                    (cl-loop for prop in props
-                             for val in values
-                             do (insert
-                                 (format "(add-to-list 'initial-frame-alist '(%s . %d))\n"
-                                         prop val)))
-                  (write-file my/frame-save-position-size-file))))))
 
 (provide 'rice)
 ;;; rice.el ends here
