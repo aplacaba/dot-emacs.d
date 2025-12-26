@@ -155,6 +155,10 @@ See `https://github.com/aws-cloudformation/cfn-python-lint'."
 	gptel-backend (gptel-make-gemini "Gemini" :key (my/gemini-api-key) :stream t)
 	gptel-default-mode 'org-mode))
 
+;; nix
+(use-package nix-mode
+  :mode "\\.nix\\'")
+
 
 (provide 'programming)
 ;;; programming.el ends here
