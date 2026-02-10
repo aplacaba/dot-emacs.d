@@ -19,6 +19,7 @@
 (setq inhibit-startup-buffer-menu t)
 (setq gc-cons-threshold most-positive-fixnum)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq default-frame-alist '((fullscreen . maximized))) ;; fullscreen
 
 (add-hook 'emacs-startup-hook
           (lambda ()
