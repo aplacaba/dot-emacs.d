@@ -47,10 +47,11 @@
   (setq vterm-max-scrollback 10000)
   (setq vterm-kill-buffer-on-exit t)
   (setq vterm-buffer-name-string "vterm - %s")
+  (define-key vterm-mode-map (kbd "C-q") #'vterm-send-next-key)
   (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (global-set-key (kbd "C-c t") 'vterm-copy-mode))
 
-(use-package vterm-toggle
+(use-package vterm-toggle
   :unless is-windows
   :config
   (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
@@ -65,6 +66,36 @@
 (use-package vertico
   :init
   (vertico-mode))
+
+(use-package tempel
+  :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
+         ("M-*" . tempel-insert))
+
+  :init
+
+  ;; Setup completion at point
+  (defun tempel-setup-capf ()
+    ;; Add the Tempel Capf to `completion-at-point-functions'.  `tempel-expand'
+    ;; only triggers on exact matches. We add `tempel-expand' *before* the main
+    ;; programming mode Capf, such that it will be tried first.
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand completion-at-point-functions))
+
+    ;; Alternatively use `tempel-complete' if you want to see all matches.  Use
+    ;; a trigger prefix character in order to prevent Tempel from triggering
+    ;; unexpectly.
+    ;; (setq-local corfu-auto-trigger "/"
+    ;;             completion-at-point-functions
+    ;;             (cons (cape-capf-trigger #'tempel-complete ?/)
+    ;;                   completion-at-point-functions))
+  )
+
+  (add-hook 'conf-mode-hook 'tempel-setup-capf)
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf))
+
+;; Optional: Add tempel-collection if you want ready-made templates.
+(use-package tempel-collection)
 
 (use-package corfu
   :custom
