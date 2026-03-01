@@ -151,7 +151,7 @@ See `https://github.com/aws-cloudformation/cfn-python-lint'."
 
 (use-package gptel
   :config
-  (setq gptel-model "gemini-2.5-flash"
+  (setq gptel-model "gemini-3-flash-preview"
 	gptel-backend (gptel-make-gemini "Gemini" :key (my/gemini-api-key) :stream t)
 	gptel-default-mode 'org-mode))
 
