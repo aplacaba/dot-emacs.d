@@ -181,6 +181,13 @@
   :init
   (exec-path-from-shell-initialize))
 
+(use-package perspective
+  :bind
+  ("C-x C-b" . persp-ibuffer)         ; or use a nicer switcher, see below
+  :custom
+  (persp-mode-prefix-key (kbd "C-c C-."))  ; pick your own prefix key here
+  :init
+  (persp-mode))
 
 (provide 'core)
 ;;; core.el ends here
