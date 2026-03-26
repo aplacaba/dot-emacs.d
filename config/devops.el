@@ -22,6 +22,15 @@
 ;; cloudformation
 (use-package cfn-mode)
 
+;; postgres
+
+;; Requires Emacs 29 and git
+(unless (package-installed-p 'pg)
+   (package-vc-install "https://github.com/emarsden/pg-el" nil nil 'pg))
+(unless (package-installed-p 'pgmacs)
+   (package-vc-install "https://github.com/emarsden/pgmacs" nil nil 'pgmacs))
+
+(require 'pgmacs)
 
 (provide 'devops)
 ;;; devops.el ends here

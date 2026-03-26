@@ -1,4 +1,3 @@
-;;; llisp.el --- Lisp Config
 ;;; Commentary:
 ;;; Code:
 
@@ -10,8 +9,8 @@
 
 (setq
   inferior-lisp-program ""
-  slime-lisp-implementations '((sbcl ("ros" "-Q" "run") :coding-system utf-8-unix)
-			       (qlot ("qlot" "exec" "sbcl") :coding-system utf-8-unix)))
+  slime-lisp-implementations '((qlot ("qlot" "exec" "sbcl") :coding-system utf-8-unix)
+			       (sbcl ("ros" "dynamic-space-size=4096" "-Q" "run") :coding-system utf-8-unix)))
 
 (defun g-slime-start ()
   (interactive)
