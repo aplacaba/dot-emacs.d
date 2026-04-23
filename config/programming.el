@@ -45,7 +45,8 @@
 
 (use-package js2-mode)
 
-(use-package emmet-mode)
+(use-package emmet-mode
+  :hook (web-mode css-mode sgml-mode))
 
 ;; clojure
 (use-package cider)
@@ -135,7 +136,9 @@ See `https://github.com/aws-cloudformation/cfn-python-lint'."
   (add-hook 'cfn-yaml-mode-hook 'flycheck-mode))
 
 (use-package devdocs)
-(use-package yasnippet)
+(use-package yasnippet
+  :init
+  (yas-global-mode 1))
 
 ;; docs
 (use-package markdown-mode
