@@ -18,7 +18,6 @@
    create-lockfiles nil
    auto-save-default nil
    make-backup-files nil
-   case-fold-search  nil
    global-auto-revert-mode nil
    initial-major-mode 'org-mode
    column-number-mode t
