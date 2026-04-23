@@ -23,14 +23,14 @@
 (use-package cfn-mode)
 
 ;; postgres
+;; Auto-installed via use-package :ensure with vc support
+(use-package pg
+  :ensure (pg :vc "https://github.com/emarsden/pg-el")
+  :defer t)
 
-;; Requires Emacs 29 and git
-(unless (package-installed-p 'pg)
-   (package-vc-install "https://github.com/emarsden/pg-el" nil nil 'pg))
-(unless (package-installed-p 'pgmacs)
-   (package-vc-install "https://github.com/emarsden/pgmacs" nil nil 'pgmacs))
-
-(require 'pgmacs)
+(use-package pgmacs
+  :ensure (pgmacs :vc "https://github.com/emarsden/pgmacs")
+  :commands pgmacs)
 
 (provide 'devops)
 ;;; devops.el ends here
