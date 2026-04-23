@@ -177,6 +177,7 @@
 
 ;; terminal goodies
 (use-package exec-path-from-shell
+  :unless is-windows
   :init
   (exec-path-from-shell-initialize))
 
