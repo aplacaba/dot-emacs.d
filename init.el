@@ -4,9 +4,9 @@
 (require 'package)
 
 (defvar my/pkg-source
-  '(("melpa" . "http://melpa.org/packages/")
+  '(("melpa" . "https://melpa.org/packages/")
     ("gnu" . "https://elpa.gnu.org/packages/")
-    ("melpa stable" . "http://stable.melpa.org/packages/")))
+    ("melpa stable" . "https://stable.melpa.org/packages/")))
 
 (defvar my/emacs-source-path "~/.emacs.d/config")
 (defvar is-windows (eq system-type 'windows-nt))
