@@ -106,7 +106,7 @@
 (use-package orderless
   :custom
   (completion-styles '(orderless basic))
-  (setq orderless-component-separator "[ &]")
+  (orderless-component-separator "[ &]")
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package consult
