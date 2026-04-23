@@ -10,7 +10,7 @@
     ;; if you want to use outline-minor-mode
     (outline-minor-mode 1))
   :hook
-  (terraform-mode-hook . my-terraform-mode-init))
+  (terraform-mode . my-terraform-mode-init))
 
 ;; docker
 (use-package docker
