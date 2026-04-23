@@ -41,7 +41,8 @@
   (doom-modeline-mode 1))
 
 ;; all the icons
-(use-package all-the-icons)
+(use-package all-the-icons
+  :if (display-graphic-p))
 
 
 ;; hide these modes
