@@ -36,5 +36,8 @@
   (when is-mac
     (require 'mac)))
 
+;; load custom file (set in core.el)
+(load custom-file 'noerror 'nomessage)
+
 (provide 'init)
 ;;; init.el ends here
