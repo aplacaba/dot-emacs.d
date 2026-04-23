@@ -1,4 +1,4 @@
-;;; init.el --- Emacs Config
+;;; -*- lexical-binding: t; -*- init.el --- Emacs Config
 ;;; Commentary:
 ;;; Code:
 (require 'package)

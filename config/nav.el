@@ -1,4 +1,4 @@
-;;; nav.el --- Navigation
+;;; -*- lexical-binding: t; -*- nav.el --- Navigation
 ;;; Commentary:
 ;;; Moving around
 ;;; Code:

@@ -1,4 +1,4 @@
-;;; programming.el --- Programming Config
+;;; -*- lexical-binding: t; -*- programming.el --- Programming Config
 ;;; Commentary:
 ;;; Coding setup
 ;;; Code:

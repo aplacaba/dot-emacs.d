@@ -1,4 +1,4 @@
-;;; rice.el --- Ricing
+;;; -*- lexical-binding: t; -*- rice.el --- Ricing
 ;;; Commentary:
 ;;; Code:
 

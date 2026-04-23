@@ -1,4 +1,4 @@
-;;; devops.el --- Devops configuration
+;;; -*- lexical-binding: t; -*- devops.el --- Devops configuration
 ;;; Commentary:
 ;;; Code:
 

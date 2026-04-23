@@ -1,4 +1,4 @@
-;;; core.el --- Core configuration
+;;; -*- lexical-binding: t; -*- core.el --- Core configuration
 ;;; Commentary:
 ;;; Code:
 
