@@ -1,4 +1,4 @@
-;;; core.el --- Core configuration
+;;; -*- lexical-binding: t; -*- core.el --- Core configuration
 ;;; Commentary:
 ;;; Code:
 
@@ -18,7 +18,6 @@
    create-lockfiles nil
    auto-save-default nil
    make-backup-files nil
-   case-fold-search  nil
    global-auto-revert-mode nil
    initial-major-mode 'org-mode
    column-number-mode t
@@ -107,7 +106,7 @@
 (use-package orderless
   :custom
   (completion-styles '(orderless basic))
-  (setq orderless-component-separator "[ &]")
+  (orderless-component-separator "[ &]")
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package consult
@@ -178,6 +177,7 @@
 
 ;; terminal goodies
 (use-package exec-path-from-shell
+  :unless is-windows
   :init
   (exec-path-from-shell-initialize))
 

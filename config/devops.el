@@ -1,4 +1,4 @@
-;;; devops.el --- Devops configuration
+;;; -*- lexical-binding: t; -*- devops.el --- Devops configuration
 ;;; Commentary:
 ;;; Code:
 
@@ -10,27 +10,27 @@
     ;; if you want to use outline-minor-mode
     (outline-minor-mode 1))
   :hook
-  (terraform-mode-hook . my-terraform-mode-init))
+  (terraform-mode . my-terraform-mode-init))
 
 ;; docker
 (use-package docker
   :bind ("C-c d" . docker))
 
 (use-package dockerfile-mode
-  :mode "\\Dockerfile\\'")
+  :mode "Dockerfile\\'")
 
 ;; cloudformation
 (use-package cfn-mode)
 
 ;; postgres
+;; Auto-installed via use-package :ensure with vc support
+(use-package pg
+  :ensure (pg :vc "https://github.com/emarsden/pg-el")
+  :defer t)
 
-;; Requires Emacs 29 and git
-(unless (package-installed-p 'pg)
-   (package-vc-install "https://github.com/emarsden/pg-el" nil nil 'pg))
-(unless (package-installed-p 'pgmacs)
-   (package-vc-install "https://github.com/emarsden/pgmacs" nil nil 'pgmacs))
-
-(require 'pgmacs)
+(use-package pgmacs
+  :ensure (pgmacs :vc "https://github.com/emarsden/pgmacs")
+  :commands pgmacs)
 
 (provide 'devops)
 ;;; devops.el ends here

@@ -1,4 +1,4 @@
-';;; rice.el --- Ricing
+;;; -*- lexical-binding: t; -*- rice.el --- Ricing
 ;;; Commentary:
 ;;; Code:
 
@@ -14,19 +14,21 @@
       modus-themes-org-blocks 'tinted-background
       modus-themes-scale-headings t
       modus-themes-region '(bg-only)
-      modus-themes-to-toggle '(modus-operandi-tritanopia modus-vivendi-tritanopia)
+      ;;modus-themes-to-toggle '(modus-operandi-tritanopia modus-vivendi-tritanopia)
+      modus-themes-to-toggle '(modus-operandi modus-vivendi-tritanopia)
       modus-themes-headings
       '((1 . (rainbow overline background 1.4))
         (2 . (rainbow background 1.3))
         (3 . (rainbow bold 1.2))
         (t . (semilight 1.1))))
 
-(load-theme 'modus-vivendi-tritanopia)
+(load-theme 'modus-vivendi-tinted)
 (fringe-mode +1)
 
 ;; font
 (set-face-attribute 'default nil
                     ;;:family "Iosevka Comfy"
+		    ;;:family "JetBrains Mono"
 		    :family "DejavuSansMNerdFontMono"
                     :weight 'regular
                     :height 105)
@@ -39,7 +41,8 @@
   (doom-modeline-mode 1))
 
 ;; all the icons
-(use-package all-the-icons)
+(use-package all-the-icons
+  :if (display-graphic-p))
 
 
 ;; hide these modes

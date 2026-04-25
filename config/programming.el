@@ -1,4 +1,4 @@
-;;; programming.el --- Programming Config
+;;; -*- lexical-binding: t; -*- programming.el --- Programming Config
 ;;; Commentary:
 ;;; Coding setup
 ;;; Code:
@@ -45,7 +45,8 @@
 
 (use-package js2-mode)
 
-(use-package emmet-mode)
+(use-package emmet-mode
+  :hook (web-mode css-mode sgml-mode))
 
 ;; clojure
 (use-package cider)
@@ -135,7 +136,9 @@ See `https://github.com/aws-cloudformation/cfn-python-lint'."
   (add-hook 'cfn-yaml-mode-hook 'flycheck-mode))
 
 (use-package devdocs)
-(use-package yasnippet)
+(use-package yasnippet
+  :init
+  (yas-global-mode 1))
 
 ;; docs
 (use-package markdown-mode
@@ -146,8 +149,9 @@ See `https://github.com/aws-cloudformation/cfn-python-lint'."
          ("C-c C-e" . markdown-do)))
 
 (defun my/gemini-api-key ()
-  (exec-path-from-shell-copy-env "GEMINI_KEY")
-  (getenv "GEMINI_KEY"))
+  "Retrieve Gemini API key from auth sources."
+  (or (getenv "GEMINI_KEY")
+      (auth-source-pick-first-password :host "gemini" :user "api-key")))
 
 (use-package gptel
   :config

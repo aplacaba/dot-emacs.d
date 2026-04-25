@@ -1,4 +1,4 @@
-;;; windows.el --- Windows Specific
+;;; -*- lexical-binding: t; -*- windows.el --- Windows Specific
 ;;; Commentary:
 ;;; Code:
 

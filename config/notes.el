@@ -1,4 +1,4 @@
-;;; notes.el --- Note Taking
+;;; -*- lexical-binding: t; -*- notes.el --- Note Taking
 ;;; Commentary:
 ;;; Code:
 

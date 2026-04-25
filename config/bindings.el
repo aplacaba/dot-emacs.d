@@ -1,4 +1,4 @@
-;;; bindings.el --- Bindings
+;;; -*- lexical-binding: t; -*- bindings.el --- Bindings
 ;;; Commentary:
 ;;; Keybindings
 ;;; Code:

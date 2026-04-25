@@ -1,4 +1,4 @@
-;;; mac.el --- Mac specific config
+;;; -*- lexical-binding: t; -*- mac.el --- Mac specific config
 ;;; Commentary:
 ;;; Code:
 

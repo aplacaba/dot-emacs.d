@@ -1,4 +1,4 @@
-;;; nav.el --- Navigation
+;;; -*- lexical-binding: t; -*- nav.el --- Navigation
 ;;; Commentary:
 ;;; Moving around
 ;;; Code:
@@ -10,10 +10,10 @@
   (rg-enable-default-bindings))
 
 (use-package avy
-  :config
-  (global-set-key (kbd "M-g e") 'avy-goto-word-0)
-  (global-set-key (kbd "C-c C-j") 'avy-resume)
-  (global-set-key (kbd "C-:") 'avy-goto-char))
+  :bind
+  ("M-g e" . avy-goto-word-0)
+  ("C-c C-j" . avy-resume)
+  ("C-:" . avy-goto-char))
 
 (use-package switch-window
   :config
