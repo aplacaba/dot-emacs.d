@@ -1,0 +1,40 @@
+* Bindings Module (~config/bindings.el~)
+
+Global keybindings, loaded last.
+
+** Colemak Layout
+
+=C-t= is translated to =C-x= via =key-translation-map=. This is the core Colemak adaptation — all =C-x= commands are reached via =C-t= instead.
+
+** Window Splits
+
+Splits automatically move focus to the new window.
+
+| Key     | Command            |
+|---------+--------------------|
+| =C-x 2= | vertical-split     |
+| =C-x 3= | horizontal-split   |
+| =M-o=   | other-window       |
+
+** Buffer
+
+| Key     | Command       |
+|---------+---------------|
+| =C-c r= | rename-buffer |
+| =C-c v= | vundo         |
+
+=C-x C-b= is remapped to =ibuffer= (overridden by perspective to =persp-ibuffer=).
+
+** Notes & Files
+
+| Key         | Command                 |
+|-------------+-------------------------|
+| =C-x C-n=   | find-file               |
+| =C-c n n=   | denote                  |
+| =C-c n o=   | denote-open-or-create   |
+
+** Other
+
+- =C-c m m= — toggle modus themes
+- =C-h d= — devdocs lookup
+- =C-<down-mouse-1>= — unset (removes default ctrl-click behavior)

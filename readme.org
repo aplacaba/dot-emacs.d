@@ -1,29 +1,123 @@
 * Emacs Config
+
+A modular Emacs configuration targeting Fedora Linux (primary), macOS 15, and Windows 11.
+
+** Features
+
+- Completion stack: Vertico + Corfu + Orderless + Consult + Cape + Tempel
+- Git: Magit with transient level 7
+- Terminal: vterm + vterm-toggle
+- Navigation: Avy, switch-window, ripgrep, consult-line
+- Programming: Tree-sitter, flycheck, yasnippet, LSP-ready
+- Languages: TypeScript/JSX, Clojure (CIDER), Ruby, Elixir, Python, Common Lisp (SLIME), Nix, YAML, Terraform, Docker, CloudFormation
+- Notes: org-mode + denote
+- AI: gptel (Gemini)
+- Theme: Modus themes with doom-modeline
+
 ** Requirements
 
-Tested on the following operating systems:
-- Fedora 42
-- MacOS 15
-- Windows 11
+*** Linux (Fedora)
 
-To install please ensure the following are installed (linux / mac only):
-
-vterm
 #+BEGIN_SRC sh
-sudo dnf install libvterm
+sudo dnf install libvterm ripgrep
 #+END_SRC
 
-sbcl
+*** macOS
+
 #+BEGIN_SRC sh
-  brew install roswell
+brew install libvterm ripgrep roswell
 #+END_SRC
 
-ripgrep
-#+BEGIN_SRC rg
-  sudo dnf install ripgrep
+*** Windows
+
+- Install [[https://github.com/akermu/emacs-libvterm][libvterm]] or use eshell (vterm skipped on Windows automatically)
+
+*** Optional
+
+- =sbcl= — Common Lisp REPL via SLIME
+- =cfn-lint= (~pip install cfn-lint~) — CloudFormation linting
+- =multimarkdown= — Markdown preview
+- Gemini API key in =~/.authinfo= or =GEMINI_KEY= env var for gptel
+
+** Installation
+
+#+BEGIN_SRC sh
+git clone <repo-url> ~/.emacs.d
 #+END_SRC
+
+First launch will install all packages automatically via =use-package= =:ensure=.
+
+After first launch, install tree-sitter grammars by evaluating:
+
+#+BEGIN_SRC elisp
+(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+#+END_SRC
+
+** Architecture
+
+All configuration lives in =config/= loaded as modules via =require= from =init.el=.
+
+#+BEGIN_SRC
+~/.emacs.d/
+├── early-init.el          # pre-frame setup (GC tuning, GUI defaults)
+├── init.el                # package sources, load-path, requires
+├── config/
+│   ├── core.el            # built-in settings, completion stack, magit, vterm
+│   ├── rice.el            # themes, fonts, modeline
+│   ├── nav.el             # avy, switch-window, ripgrep
+│   ├── notes.el           # org-mode, denote
+│   ├── devops.el          # terraform, docker, cfn, pg/pgmacs
+│   ├── programming.el     # languages, tree-sitter, flycheck, yasnippet, gptel
+│   ├── llisp.el           # SLIME/SBCL
+│   ├── bindings.el        # global keybindings (Colemak-aware)
+│   ├── mac.el             # macOS overrides
+│   └── windows.el         # Windows overrides
+├── snippets/              # yasnippet snippets
+├── custom.el              # customize settings (gitignored)
+└── docs/                  # detailed module documentation
+#+END_SRC
+
+Each module follows the same structure:
+
+#+BEGIN_SRC elisp
+;;; -*- lexical-binding: t; -*- name.el --- Description
+;;; Commentary:
+;;; Code:
+
+;; ... use-package forms and config ...
+
+(provide 'name)
+;;; name.el ends here
+#+END_SRC
+
+** Key Bindings
+
+| Key              | Command                | Notes                      |
+|------------------+------------------------+----------------------------|
+| =C-t=            | translated to =C-x=     | Colemak layout             |
+| =M-o=            | other-window           |                            |
+| =C-M-g= / =C-x g= | magit-status          |                            |
+| =C-s=            | consult-line-literal   | replaces isearch           |
+| =C-c s=          | consult-ripgrep        |                            |
+| =C-x b=          | consult-buffer         |                            |
+| =C-x C-b=        | persp-ibuffer          | perspective workspaces     |
+| =C-c C-.=        | perspective prefix     |                            |
+| =s-t= / =C-M-t=  | vterm-toggle/cd        |                            |
+| =C-c t=          | vterm-copy-mode        |                            |
+| =C-c n n=        | denote                 | create note                |
+| =C-c n o=        | denote-open-or-create  | open or create note        |
+| =C-c m m=        | modus-themes-toggle    |                            |
+| =C-c a=          | org-agenda             |                            |
+| =C-c c=          | org-capture            |                            |
+| =C-c d=          | docker                 |                            |
+| =C-:=            | avy-goto-char          |                            |
+| =M-g e=          | avy-goto-word-0        |                            |
+| =M-+=            | tempel-complete        | template expansion         |
+| =C-c p=          | cape prefix            | completion extensions      |
+| =C-h d=          | devdocs-lookup         |                            |
+
+See [[file:docs/][docs/]] for detailed per-module documentation.
+
 ** Customizations
 
-Refer to =mac.el= for mac specific config
-
-Refer to =windows.el= for windows specific config
+OS-specific config is in =config/mac.el= and =config/windows.el=. Emacs =customize= settings are stored in =custom.el= (gitignored).
