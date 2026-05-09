@@ -1,0 +1,23 @@
+* DevOps Module (~config/devops.el~)
+
+Infrastructure and cloud tooling.
+
+** Terraform
+
+- =terraform-mode= with format-on-save enabled
+- Outline minor mode enabled for code folding
+
+** Docker
+
+- =docker= package for managing containers (=C-c d=)
+- =dockerfile-mode= for =Dockerfile=
+
+** CloudFormation
+
+- =cfn-mode= for CloudFormation templates
+- Custom =cfn-lint= flycheck checker (defined in =programming.el=)
+
+** PostgreSQL
+
+- =pg= and =pgmacs= installed via =use-package= =:ensure= with =:vc= from GitHub
+- Both deferred — load on first use via =pgmacs= command
