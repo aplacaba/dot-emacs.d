@@ -55,40 +55,32 @@ After first launch, install tree-sitter grammars by evaluating:
 
 ** Architecture
 
-All configuration lives in =config/= loaded as modules via =require= from =init.el=.
+This is a [[https://en.wikipedia.org/wiki/Literate_programming][literate configuration]] — each module is an org file containing
+prose documentation alongside elisp code blocks. =init.el= and =early-init.el=
+are thin bootstraps that use =org-babel-load-file= to tangle and load the org
+sources.
 
 #+BEGIN_SRC
 ~/.emacs.d/
-├── early-init.el          # pre-frame setup (GC tuning, GUI defaults)
-├── init.el                # package sources, load-path, requires
+├── early-init.el          # bootstrap: loads early-init.org
+├── init.el                # bootstrap: package setup, loads config/*.org
 ├── config/
-│   ├── core.el            # built-in settings, completion stack, magit, vterm
-│   ├── rice.el            # themes, fonts, modeline
-│   ├── nav.el             # avy, switch-window, ripgrep
-│   ├── notes.el           # org-mode, denote
-│   ├── devops.el          # terraform, docker, cfn, pg/pgmacs
-│   ├── programming.el     # languages, tree-sitter, flycheck, yasnippet, gptel
-│   ├── llisp.el           # SLIME/SBCL
-│   ├── bindings.el        # global keybindings (Colemak-aware)
-│   ├── mac.el             # macOS overrides
-│   └── windows.el         # Windows overrides
+│   ├── core.org           # built-in settings, completion stack, magit, vterm
+│   ├── rice.org           # themes, fonts, modeline
+│   ├── nav.org            # avy, switch-window, ripgrep
+│   ├── notes.org          # org-mode, denote
+│   ├── devops.org         # terraform, docker, cfn, pg/pgmacs
+│   ├── programming.org    # languages, tree-sitter, flycheck, yasnippet, gptel
+│   ├── llisp.org          # SLIME/SBCL
+│   ├── bindings.org       # global keybindings (Colemak-aware)
+│   ├── mac.org            # macOS overrides
+│   └── windows.org        # Windows overrides
 ├── snippets/              # yasnippet snippets
-├── custom.el              # customize settings (gitignored)
-└── docs/                  # detailed module documentation
+└── custom.el              # customize settings (gitignored)
 #+END_SRC
 
-Each module follows the same structure:
-
-#+BEGIN_SRC elisp
-;;; -*- lexical-binding: t; -*- name.el --- Description
-;;; Commentary:
-;;; Code:
-
-;; ... use-package forms and config ...
-
-(provide 'name)
-;;; name.el ends here
-#+END_SRC
+Each module is a self-documenting org file. To edit the config, edit the
+=.org= files — the generated =.el= files are gitignored.
 
 ** Key Bindings
 
@@ -116,8 +108,6 @@ Each module follows the same structure:
 | =C-c p=          | cape prefix            | completion extensions      |
 | =C-h d=          | devdocs-lookup         |                            |
 
-See [[file:docs/][docs/]] for detailed per-module documentation.
-
 ** Customizations
 
-OS-specific config is in =config/mac.el= and =config/windows.el=. Emacs =customize= settings are stored in =custom.el= (gitignored).
+OS-specific config is in =config/mac.org= and =config/windows.org=. Emacs =customize= settings are stored in =custom.el= (gitignored).

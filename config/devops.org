@@ -1,0 +1,56 @@
+* DevOps
+
+Infrastructure and cloud tooling for Terraform, Docker, CloudFormation,
+and PostgreSQL.
+
+** Terraform
+
+Terraform mode with format-on-save and outline-minor-mode for code
+folding.
+
+#+BEGIN_SRC elisp
+(use-package terraform-mode
+  :init
+  (setopt terraform-format-on-save t)
+  (defun my-terraform-mode-init ()
+    (outline-minor-mode 1))
+  :hook
+  (terraform-mode . my-terraform-mode-init))
+#+END_SRC
+
+** Docker
+
+Docker management UI and Dockerfile editing.
+
+#+BEGIN_SRC elisp
+(use-package docker
+  :bind ("C-c d" . docker))
+
+(use-package dockerfile-mode
+  :mode "Dockerfile\\'")
+#+END_SRC
+
+** CloudFormation
+
+CloudFormation template support. The flycheck linter is configured in
+=programming.org=.
+
+#+BEGIN_SRC elisp
+(use-package cfn-mode)
+#+END_SRC
+
+** PostgreSQL
+
+Emacs interfaces for PostgreSQL, installed directly from source via
+=use-package= =:ensure= with =:vc=. Both are deferred to speed up
+startup.
+
+#+BEGIN_SRC elisp
+(use-package pg
+  :ensure (pg :vc "https://github.com/emarsden/pg-el")
+  :defer t)
+
+(use-package pgmacs
+  :ensure (pgmacs :vc "https://github.com/emarsden/pgmacs")
+  :commands pgmacs)
+#+END_SRC

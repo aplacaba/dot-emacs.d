@@ -4,34 +4,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Personal Emacs configuration targeting Fedora Linux (primary), macOS, and Windows 11. Uses a modular `config/` directory loaded via `require` from `init.el`.
+Personal Emacs configuration targeting Fedora Linux (primary), macOS, and Windows 11. This is a **literate config** — modules are org files containing prose documentation alongside elisp code blocks, loaded via `org-babel-load-file`.
 
 ## Architecture
 
-**Load order** (defined in `init.el`):
-1. `early-init.el` — GUI defaults, GC tuning, disables chrome before frame creation
-2. `init.el` — sets `load-path` to `config/`, requires each module in order
-3. Config modules (`config/*.el`), each ending with `(provide '<name>)`:
-   - `core.el` — built-in Emacs settings, magit, vterm, vertico/corfu/orderless/consult/cape completion stack, perspective, which-key
-   - `rice.el` — modus themes, fonts, doom-modeline, diminish, marginalia
-   - `nav.el` — avy, switch-window, ripgrep, vundo
-   - `notes.el` — org-mode, denote (notes in `~/.notes/`), org-download
-   - `devops.el` — terraform, docker, cfn-mode, pg/pgmacs (via vc)
-   - `programming.el` — language modes (TS, web, clojure, ruby, elixir, nix), treesit grammars, flycheck, yasnippet, gptel (Gemini), devdocs
-   - `llisp.el` — SLIME/SBCL for Common Lisp
-   - `bindings.el` — global keybindings (Colemak-aware: `C-t` → `C-x` translation), splits, denote/org shortcuts
-   - `mac.el` / `windows.el` — OS-specific overrides (fonts, meta key, tramp method)
+**How it works**: `init.el` and `early-init.el` are thin bootstraps that use `org-babel-load-file` to tangle and load `config/*.org` files. The generated `.el` files are gitignored.
 
-**Platform detection** uses `is-windows` / `is-mac` defvars in `init.el`. OS modules load conditionally.
+**Load order** (defined in `init.el`):
+1. `early-init.el` → loads `early-init.org` — GUI defaults, GC tuning
+2. `init.el` — package setup, then loads each module via `my/load-config`:
+   - `config/core.org` — built-in settings, magit, vterm, vertico/corfu/orderless/consult/cape completion stack, perspective, which-key
+   - `config/rice.org` — modus themes, fonts, doom-modeline, diminish, marginalia
+   - `config/nav.org` — avy, switch-window, ripgrep, vundo
+   - `config/notes.org` — org-mode, denote (notes in `~/.notes/`), org-download
+   - `config/devops.org` — terraform, docker, cfn-mode, pg/pgmacs (via vc)
+   - `config/programming.org` — language modes, treesit grammars, flycheck, yasnippet, gptel (Gemini), devdocs
+   - `config/llisp.org` — SLIME/SBCL for Common Lisp
+   - `config/bindings.org` — global keybindings (Colemak-aware: `C-t` → `C-x` translation)
+   - `config/mac.org` / `config/windows.org` — OS-specific overrides (loaded conditionally)
+
+**Platform detection** uses `is-windows` / `is-mac` defvars in `init.el`.
 
 ## Conventions
 
-- All files use `;; -*- lexical-binding: t; -*-` header
-- Package management via `use-package` with `:ensure t` (set globally). Packages install from MELPA/GNU ELPA automatically
-- Tree-sitter grammars are listed in `treesit-language-source-alist` in `programming.el`; install by eval'ing the commented-out `(mapc #'treesit-install-language-grammar ...)` form
-- Custom theme/settings go to `~/.emacs.d/custom.el` (set as `custom-file` in `core.el`, gitignored)
+- Edit the `.org` files, not the generated `.el` files
+- Package management via `use-package` with `:ensure t` (set globally)
+- Tree-sitter grammars are listed in `programming.org`; install by eval'ing the commented-out `(mapc #'treesit-install-language-grammar ...)` form
+- Custom theme/settings go to `~/.emacs.d/custom.el` (gitignored)
 - Commit style: conventional commits (`feat`, `fix`, `refactor`, `style`) with scope in parens
-- API keys sourced from `~/.authinfo` or environment variables (see `my/gemini-api-key` in `programming.el`)
+- API keys sourced from `~/.authinfo` or environment variables (see `my/gemini-api-key` in `programming.org`)
 
 ## Keybindings of Note
 

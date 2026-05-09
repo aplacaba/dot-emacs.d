@@ -1,32 +1,52 @@
-;;; -*- lexical-binding: t; -*- programming.el --- Programming Config
-;;; Commentary:
-;;; Coding setup
-;;; Code:
+* Programming
 
-;; auto close parens
+Language support, linting, templates, and developer tools.
+
+** Editor Defaults
+
+Auto-close delimiters with =electric-pair-mode= and highlight the
+current line globally.
+
+#+BEGIN_SRC elisp
 (electric-pair-mode 1)
 (global-hl-line-mode 1)
+#+END_SRC
 
-;; Indent hints
+** Indentation Guides
+
+Visual indentation bars for YAML and Python modes, with tree-sitter
+support for accurate scope detection.
+
+#+BEGIN_SRC elisp
 (use-package indent-bars
   :custom
-  (indent-bars-no-descend-lists t) ; no extra bars in continued func arg lists
+  (indent-bars-no-descend-lists t)
   (indent-bars-treesit-support t)
   (indent-bars-treesit-ignore-blank-lines-types '("module"))
-  ;; Add other languages as needed
   (indent-bars-treesit-scope '((python function_definition class_definition for_statement
-	  if_statement with_statement while_statement)))
+      if_statement with_statement while_statement)))
   :hook
   ((yaml-mode python-mode). indent-bars-mode))
+#+END_SRC
 
-;; yaml support
+** Languages
+
+*** YAML
+
+#+BEGIN_SRC elisp
 (use-package yaml-mode
   :mode "\\.yml\\'"
   :mode "\\.yaml\\'"
   :hook
   (yaml-ts-mode . yaml-mode))
+#+END_SRC
 
-;; web / js
+*** Web / JavaScript
+
+Web-mode handles TSX, JSX, HTML, CSS, and SCSS with 2-space
+indentation. Emmet provides HTML/CSS abbreviation expansion.
+
+#+BEGIN_SRC elisp
 (use-package json-mode
   :init
   (setopt js-indent-level 2))
@@ -47,16 +67,27 @@
 
 (use-package emmet-mode
   :hook (web-mode css-mode sgml-mode))
+#+END_SRC
 
-;; clojure
+*** Clojure
+
+CIDER for REPL-driven development, hooked into all Clojure buffers.
+
+#+BEGIN_SRC elisp
 (use-package cider)
 
 (use-package clojure-mode
   :hook
   (clojure-mode . cider-mode))
+#+END_SRC
 
-;; ruby
+*** Ruby
 
+Tree-sitter Ruby mode with =ruby-end= for auto-inserting =end=
+keywords. Custom navigation bindings for moving between method
+definitions.
+
+#+BEGIN_SRC elisp
 (use-package ruby-end)
 
 (use-package ruby-ts-mode
@@ -68,8 +99,14 @@
               ("C-c r e" . 'treesit-end-of-defun))
   :hook
   (ruby-ts-mode . ruby-end-mode))
+#+END_SRC
 
-;; elixir
+*** Elixir
+
+Tree-sitter Elixir mode with =ruby-end-mode= adapted for Elixir's
+=do ... end= blocks.
+
+#+BEGIN_SRC elisp
 (use-package elixir-ts-mode)
 
 (add-to-list 'elixir-ts-mode-hook
@@ -78,9 +115,24 @@
                     "\\(?:^\\|\\s-+\\)\\(?:do\\)")
                (set (make-variable-buffer-local 'ruby-end-check-statement-modifiers) nil)
                (ruby-end-mode +1)))
+#+END_SRC
 
+*** Nix
 
-;; tressitter mode grammars
+#+BEGIN_SRC elisp
+(use-package nix-mode
+  :mode "\\.nix\\'")
+#+END_SRC
+
+** Tree-sitter
+
+Grammar sources for tree-sitter. After first install or updates,
+evaluate the commented form below to install all grammars.
+
+=treesit-auto= remaps major modes to their tree-sitter variants
+automatically.
+
+#+BEGIN_SRC elisp
 (setopt treesit-language-source-alist
    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
      (cmake "https://github.com/uyha/tree-sitter-cmake")
@@ -101,14 +153,22 @@
      (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
      (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml")))
 
-;; uncomment and eval block below on treesitter list update
+;; uncomment and eval to install grammars
 ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
 
 (use-package treesit-auto
   :init
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
+#+END_SRC
 
+** Flycheck
+
+Global syntax checking. Includes a custom =cfn-lint= checker for
+CloudFormation YAML files. Requires =cfn-lint= installed at
+=~/.local/bin/cfn-lint=.
+
+#+BEGIN_SRC elisp
 (use-package flycheck
   :init
   (flycheck-add-mode 'javascript-eslint 'web-mode)
@@ -134,20 +194,50 @@ See `https://github.com/aws-cloudformation/cfn-python-lint'."
 
   (add-to-list 'flycheck-checkers 'cfn-lint)
   (add-hook 'cfn-yaml-mode-hook 'flycheck-mode))
+#+END_SRC
 
-(use-package devdocs)
+** Templates and Docs
+
+*** Yasnippet
+
+Global snippet expansion system.
+
+#+BEGIN_SRC elisp
 (use-package yasnippet
   :init
   (yas-global-mode 1))
+#+END_SRC
 
-;; docs
+*** Devdocs
+
+Documentation lookup for programming languages and frameworks.
+
+#+BEGIN_SRC elisp
+(use-package devdocs)
+#+END_SRC
+
+*** Markdown
+
+GitHub-Flavored Markdown mode for editing READMEs. Requires
+=multimarkdown= for preview.
+
+#+BEGIN_SRC elisp
 (use-package markdown-mode
   :ensure t
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown")
   :bind (:map markdown-mode-map
          ("C-c C-e" . markdown-do)))
+#+END_SRC
 
+** AI (gptel)
+
+Gemini integration for in-editor AI chat and code generation. API key
+is resolved from the =GEMINI_KEY= environment variable or from
+=~/.authinfo= (host =gemini=, user =api-key=). Default model is
+=gemini-3-flash-preview= and responses use org-mode formatting.
+
+#+BEGIN_SRC elisp
 (defun my/gemini-api-key ()
   "Retrieve Gemini API key from auth sources."
   (or (getenv "GEMINI_KEY")
@@ -156,13 +246,6 @@ See `https://github.com/aws-cloudformation/cfn-python-lint'."
 (use-package gptel
   :config
   (setq gptel-model "gemini-3-flash-preview"
-	gptel-backend (gptel-make-gemini "Gemini" :key (my/gemini-api-key) :stream t)
-	gptel-default-mode 'org-mode))
-
-;; nix
-(use-package nix-mode
-  :mode "\\.nix\\'")
-
-
-(provide 'programming)
-;;; programming.el ends here
+        gptel-backend (gptel-make-gemini "Gemini" :key (my/gemini-api-key) :stream t)
+        gptel-default-mode 'org-mode))
+#+END_SRC

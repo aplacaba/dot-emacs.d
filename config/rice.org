@@ -1,0 +1,116 @@
+* Rice
+
+Visual configuration: theme, fonts, modeline, and cosmetic tweaks.
+
+** Modus Themes
+
+The Modus themes are Emacs' built-in accessible themes. The dark variant
+(=modus-vivendi-tinted=) is loaded by default. Toggle between light and
+dark with =C-c m m=.
+
+Custom styling: accented borderless mode line, tinted org block
+backgrounds, rainbow headings that scale by level, intense paren
+matching and prompt highlighting.
+
+#+BEGIN_SRC elisp
+(setq modus-themes-mode-line '(accented borderless)
+      modus-themes-bold-constructs t
+      modus-themes-italic-constructs t
+      modus-themes-fringes 'subtle
+      modus-themes-tabs-accented t
+      modus-themes-paren-match '(bold intense)
+      modus-themes-prompts '(bold intense)
+      modus-themes-completions 'opinionated
+      modus-themes-org-blocks 'tinted-background
+      modus-themes-scale-headings t
+      modus-themes-region '(bg-only)
+      modus-themes-to-toggle '(modus-operandi modus-vivendi-tritanopia)
+      modus-themes-headings
+      '((1 . (rainbow overline background 1.4))
+        (2 . (rainbow background 1.3))
+        (3 . (rainbow bold 1.2))
+        (t . (semilight 1.1))))
+
+(load-theme 'modus-vivendi-tinted)
+(fringe-mode +1)
+#+END_SRC
+
+** Font
+
+Linux default: DejavuSansMNerdFontMono at height 105 with line spacing 1.
+Per-OS overrides are in =mac.org= and =windows.org=.
+
+#+BEGIN_SRC elisp
+(set-face-attribute 'default nil
+                    :family "DejavuSansMNerdFontMono"
+                    :weight 'regular
+                    :height 105)
+
+(setq-default line-spacing 1)
+#+END_SRC
+
+** Doom Modeline
+
+Rich status bar with git branch, buffer info, and notifications.
+
+#+BEGIN_SRC elisp
+(use-package doom-modeline
+  :init
+  (doom-modeline-mode 1))
+#+END_SRC
+
+** Icons
+
+Icon support for graphical frames only. Guarded with =display-graphic-p=
+to avoid errors in terminal mode.
+
+#+BEGIN_SRC elisp
+(use-package all-the-icons
+  :if (display-graphic-p))
+#+END_SRC
+
+** Diminish
+
+Hide minor modes from the modeline to reduce clutter. Currently hides
+=auto-revert=, =eldoc=, and =which-key=.
+
+#+BEGIN_SRC elisp
+(use-package diminish
+  :commands diminish
+  :init
+  (diminish 'auto-revert-mode)
+  (diminish 'eldoc-mode)
+  (diminish 'which-key-mode))
+#+END_SRC
+
+** Rainbow Delimiters
+
+Color-coded parentheses in programming modes for easier visual matching.
+
+#+BEGIN_SRC elisp
+(use-package rainbow-delimiters
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
+#+END_SRC
+
+** Marginalia
+
+Rich annotations in the minibuffer (descriptions, key bindings, etc.).
+Press =M-A= in the minibuffer to cycle annotation detail.
+
+#+BEGIN_SRC elisp
+(use-package marginalia
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+#+END_SRC
+
+** Clock
+
+Display the current time in HH:MM format in the modeline.
+
+#+BEGIN_SRC elisp
+(setopt display-time-format "%H:%M"
+        display-time-mode t)
+#+END_SRC
