@@ -1,0 +1,238 @@
+* Core
+
+Core editor behavior, built-in settings, and the completion stack.
+This module is loaded first and provides the foundation for everything else.
+
+** Built-in Settings
+
+Basic editor preferences: confirm with =y/n=, delete trailing whitespace on
+save, disable lock files, auto-save, and backups. Tab key triggers completion
+instead of indentation when point is mid-word.
+
+#+BEGIN_SRC elisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setenv "PAGER" "cat")
+
+(use-package emacs
+  :ensure nil
+  :hook
+  (before-save . delete-trailing-whitespace)
+  :config
+  (setq
+   custom-safe-themes t
+   kill-whole-line t
+   case-fold-search nil
+   ring-bell-function 'ignore
+   create-lockfiles nil
+   auto-save-default nil
+   make-backup-files nil
+   global-auto-revert-mode nil
+   initial-major-mode 'org-mode
+   column-number-mode t
+   cursor-type 'box
+   warning-minimum-level :emergency
+   tab-always-indent 'complete
+   display-time-default-load-average nil
+   display-time-mail-string ""
+   auth-sources "~/.authinfo"
+   custom-file "~/.emacs.d/custom.el"))
+#+END_SRC
+
+** Magit
+
+Full-featured git porcelain. Transient level is set to 7 so all commands
+are visible by default.
+
+#+BEGIN_SRC elisp
+(use-package magit
+  :config
+  (setq transient-default-level 7)
+  :bind
+  (("C-M-g" . magit-status)
+   ("C-x g" . magit-status)))
+#+END_SRC
+
+** Vterm
+
+Terminal emulator using libvterm. Skipped on Windows via the =is-windows=
+check. The scrollback is set to 10,000 lines and the buffer is killed on
+exit. =hl-line-mode= is disabled inside vterm for readability.
+
+#+BEGIN_SRC elisp
+(use-package vterm
+  :unless is-windows
+  :config
+  (setq vterm-max-scrollback 10000)
+  (setq vterm-kill-buffer-on-exit t)
+  (setq vterm-buffer-name-string "vterm - %s")
+  (define-key vterm-mode-map (kbd "C-q") #'vterm-send-next-key)
+  (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
+  (global-set-key (kbd "C-c t") 'vterm-copy-mode))
+
+(use-package vterm-toggle
+  :unless is-windows
+  :config
+  (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
+  (global-set-key (kbd "s-t") 'vterm-toggle)
+  (global-set-key (kbd "C-M-t") 'vterm-toggle-cd)
+  (define-key vterm-mode-map [(control return)]   #'vterm-toggle-insert-cd)
+  (define-key vterm-mode-map (kbd "s-n")   'vterm-toggle-forward)
+  (define-key vterm-mode-map (kbd "s-p")   'vterm-toggle-backward))
+#+END_SRC
+
+** Completion Stack
+
+Vertico, Corfu, Orderless, Consult, Cape, and Tempel work together to
+provide completion everywhere: minibuffer, in-buffer, and templates.
+
+*** Vertico
+
+Vertical minibuffer completion. Enabled globally.
+
+#+BEGIN_SRC elisp
+(use-package vertico
+  :init
+  (vertico-mode))
+#+END_SRC
+
+*** Tempel
+
+Template expansion using =tempel-collection= for ready-made snippets.
+Hooked into prog, conf, and text modes so templates are available
+everywhere.
+
+#+BEGIN_SRC elisp
+(use-package tempel
+  :bind (("M-+" . tempel-complete)
+         ("M-*" . tempel-insert))
+  :init
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand completion-at-point-functions)))
+  (add-hook 'conf-mode-hook 'tempel-setup-capf)
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf))
+
+(use-package tempel-collection)
+#+END_SRC
+
+*** Corfu
+
+In-buffer popup completion. Auto-triggers as you type and dismisses when
+no match remains after a separator.
+
+#+BEGIN_SRC elisp
+(use-package corfu
+  :custom
+  (corfu-auto t)
+  (corfu-quit-no-match 'separator)
+  :init
+  (global-corfu-mode))
+#+END_SRC
+
+*** Orderless
+
+Space-separated component matching. The component separator is =[ &]= so
+spaces and ampersands split search terms.
+
+#+BEGIN_SRC elisp
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (orderless-component-separator "[ &]")
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+#+END_SRC
+
+*** Consult
+
+Search and switch commands. =consult-line-literal= replaces isearch with
+substring-based line search.
+
+#+BEGIN_SRC elisp
+(use-package consult
+  :bind
+  ("C-x b" . consult-buffer)
+  ("C-c s" . consult-ripgrep)
+  ("C-c h" . consult-history)
+  ("C-c k" . consult-kmacro)
+  ("C-c i" . consult-info)
+  ("C-s" . consult-line-literal)
+  :init
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format))
+
+(defun consult-line-literal ()
+  "Use this instead of isearch."
+  (interactive)
+  (let ((completion-styles '(substring))
+        (completion-category-defaults nil)
+        (completion-category-overrides nil))
+    (consult-line)))
+#+END_SRC
+
+*** Dabbrev
+
+Dynamic abbreviation for expanding text from other buffers.
+
+#+BEGIN_SRC elisp
+(use-package dabbrev
+  :ensure nil
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  (add-to-list 'dabbrev-ignored-buffer-modes 'authinfo-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
+#+END_SRC
+
+*** Cape
+
+Completion extensions under the =C-c p= prefix. Adds dabbrev, file, and
+elisp-block completions globally.
+
+#+BEGIN_SRC elisp
+(use-package cape
+  :bind ("C-c p" . cape-prefix-map)
+  :init
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block))
+#+END_SRC
+
+** Which Key
+
+Shows available keybindings after a prefix key is pressed.
+
+#+BEGIN_SRC elisp
+(use-package which-key
+  :config
+  (which-key-mode)
+  (which-key-setup-side-window-bottom))
+#+END_SRC
+
+** Exec Path
+
+Inherits the shell PATH into Emacs. Skipped on Windows.
+
+#+BEGIN_SRC elisp
+(use-package exec-path-from-shell
+  :unless is-windows
+  :init
+  (exec-path-from-shell-initialize))
+#+END_SRC
+
+** Perspective
+
+Workspace and session management for isolating buffer groups.
+
+#+BEGIN_SRC elisp
+(use-package perspective
+  :bind
+  ("C-x C-b" . persp-ibuffer)
+  :custom
+  (persp-mode-prefix-key (kbd "C-c C-."))
+  :init
+  (persp-mode))
+#+END_SRC

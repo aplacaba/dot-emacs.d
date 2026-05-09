@@ -1,0 +1,23 @@
+* Common Lisp
+
+SLIME setup for SBCL.
+
+** Configuration
+
+SLIME is loaded from =~/.slime= using autoloading so it only loads when
+first invoked. =g-slime-start= is a convenience function that starts
+SLIME with a prefix arg for choosing the Lisp implementation.
+
+Requires [[https://github.com/roswell/roswell][Roswell]] or a direct
+SBCL installation.
+
+#+BEGIN_SRC elisp
+(add-to-list 'load-path "~/.slime")
+(require 'slime-autoloads)
+(setq inferior-lisp-program "sbcl")
+
+(defun g-slime-start ()
+  (interactive)
+  (let ((current-prefix-arg '-))
+    (call-interactively 'slime)))
+#+END_SRC

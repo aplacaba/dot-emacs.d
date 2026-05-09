@@ -1,0 +1,67 @@
+* Bindings
+
+Global keybindings. Loaded last so all packages are available.
+
+** Colemak Layout
+
+The core Colemak adaptation: =C-t= is translated to =C-x= via
+=key-translation-map=. All =C-x= commands are reached via =C-t=
+instead.
+
+#+BEGIN_SRC elisp
+(define-key key-translation-map [?\C-t] [?\C-x])
+#+END_SRC
+
+** Window Splits
+
+Splits that automatically move focus to the new window.
+
+#+BEGIN_SRC elisp
+(defun vertical-split ()
+  (interactive)
+  (split-window-vertically) (other-window 1))
+
+(defun horizontal-split ()
+  (interactive)
+  (split-window-horizontally) (other-window 1))
+
+(global-set-key "\C-x2" #'vertical-split)
+(global-set-key "\C-x3" #'horizontal-split)
+(global-set-key (kbd "M-o") 'other-window)
+#+END_SRC
+
+** Buffer
+
+#+BEGIN_SRC elisp
+(global-set-key (kbd "C-c r") 'rename-buffer)
+(global-set-key (kbd "C-c v") 'vundo)
+(define-key global-map [remap list-buffers] 'ibuffer)
+#+END_SRC
+
+** Theme
+
+#+BEGIN_SRC elisp
+(global-set-key (kbd "C-c m m") 'modus-themes-toggle)
+#+END_SRC
+
+** Docs
+
+#+BEGIN_SRC elisp
+(global-set-key (kbd "C-h d") 'devdocs-lookup)
+#+END_SRC
+
+** Notes and Files
+
+#+BEGIN_SRC elisp
+(global-set-key (kbd "C-x C-n") 'find-file)
+(global-set-key (kbd "C-c n n") 'denote)
+(global-set-key (kbd "C-c n o") 'denote-open-or-create)
+#+END_SRC
+
+** Misc
+
+Remove the default ctrl-click binding to avoid accidental activation.
+
+#+BEGIN_SRC elisp
+(global-unset-key (kbd "C-<down-mouse-1>"))
+#+END_SRC

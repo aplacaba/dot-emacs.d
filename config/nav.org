@@ -1,0 +1,56 @@
+* Navigation
+
+Movement, search, and window switching tools.
+
+** Smooth Scrolling
+
+Pixel-precise scrolling for a native feel.
+
+#+BEGIN_SRC elisp
+(pixel-scroll-precision-mode)
+#+END_SRC
+
+** Ripgrep
+
+Fast project-wide text search using ripgrep. Default keybindings are
+enabled via =rg-enable-default-bindings=.
+
+#+BEGIN_SRC elisp
+(use-package rg
+  :init
+  (rg-enable-default-bindings))
+#+END_SRC
+
+** Avy
+
+Jump to any visible text on screen. Useful for quick navigation without
+leaving the home row.
+
+#+BEGIN_SRC elisp
+(use-package avy
+  :bind
+  ("M-g e" . avy-goto-word-0)
+  ("C-c C-j" . avy-resume)
+  ("C-:" . avy-goto-char))
+#+END_SRC
+
+** Switch Window
+
+Visual window selector that replaces the default =C-x o= behavior with
+a labeled overlay showing which window to switch to.
+
+#+BEGIN_SRC elisp
+(use-package switch-window
+  :config
+  (setq switch-window-shortcut-style 'qwerty)
+  (setq switch-window-input-style 'minibuffer)
+  (global-set-key (kbd "C-x o") 'switch-window))
+#+END_SRC
+
+** Vundo
+
+Visual undo tree for exploring and selecting from the undo history.
+
+#+BEGIN_SRC elisp
+(use-package vundo)
+#+END_SRC

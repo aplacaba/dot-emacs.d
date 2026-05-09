@@ -1,0 +1,54 @@
+* Windows
+
+OS-specific configuration for Windows 11.
+
+** WSL Clipboard
+
+Copy the active region to the Windows clipboard via =clip.exe=.
+
+#+BEGIN_SRC elisp
+(defun wsl-copy (start end)
+  (interactive "r")
+  (shell-command-on-region start end "clip.exe")
+  (deactivate-mark))
+#+END_SRC
+
+** Common Lisp
+
+Load the Roswell helper for SLIME integration on Windows.
+
+#+BEGIN_SRC elisp
+(load (expand-file-name "C:/Users/A/.roswell/helper.el"))
+#+END_SRC
+
+** Spelling
+
+Use Aspell for spell checking on Windows.
+
+#+BEGIN_SRC elisp
+(setq ispell-program-name "aspell")
+#+END_SRC
+
+** Font
+
+CommitMono at height 130 with extra line spacing for readability on
+Windows.
+
+#+BEGIN_SRC elisp
+(set-face-attribute 'default nil
+                    :family "CommitMono"
+                    :weight 'regular
+                    :height 130)
+
+(setq-default line-spacing 3)
+#+END_SRC
+
+** TRAMP
+
+Use Plink for remote connections and store auto-save files on the
+Windows partition.
+
+#+BEGIN_SRC elisp
+(setq tramp-default-method "plink")
+(setq tramp-auto-save-directory "c:\\Users\\A\\tmp")
+#+END_SRC

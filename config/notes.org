@@ -1,0 +1,47 @@
+* Notes
+
+Note-taking with org-mode and denote.
+
+** Org Mode
+
+Task management and document editing. Uses a custom TODO workflow
+(=TODO= → =DOING= → =WAITING= → =DONE=) and downloads remote images
+for inline display.
+
+#+BEGIN_SRC elisp
+(use-package org
+  :init
+  (setopt
+   org-display-remote-inline-images 'download
+   org-agenda-files '("~/.notes/20250523T112215--tasks__work.org")
+   org-todo-keywords '((sequence "TODO" "DOING" "WAITING" "DONE")))
+  :config
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c c") 'org-capture)
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c C-;") 'org-todo))
+#+END_SRC
+
+** Org Download
+
+Enables drag-and-drop and clipboard paste of images into org buffers.
+
+#+BEGIN_SRC elisp
+(use-package org-download)
+#+END_SRC
+
+** Denote
+
+File-based note-taking system. Notes are stored in =~/.notes/= with
+keywords for categorization. Denote integrates with Dired for metadata
+display.
+
+#+BEGIN_SRC elisp
+(use-package denote
+  :init
+  (setopt
+   denote-directory (expand-file-name "~/.notes/")
+   denote-sort-keywords t
+   denote-known-keywords '("work" "personal" "finance" "urgent"))
+  (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories))
+#+END_SRC

@@ -1,0 +1,44 @@
+* macOS
+
+OS-specific configuration for macOS.
+
+** Meta Key
+
+Use Command as Meta and leave Option unmapped for typing special
+characters.
+
+#+BEGIN_SRC elisp
+(setopt mac-option-key-is-meta nil
+        mac-command-key-is-meta t
+        mac-command-modifier 'meta
+        mac-option-modifier 'none)
+#+END_SRC
+
+** Font
+
+Override fontconfig with DejavuSansMNerdFontMono at a larger size for
+Retina displays.
+
+#+BEGIN_SRC elisp
+(set-face-attribute 'default nil
+                    :family "DejavuSansM Nerd Font"
+                    :weight 'regular
+                    :height 140)
+
+(setq-default line-spacing 1)
+#+END_SRC
+
+** Ultra Scroll
+
+Native smooth scrolling for macOS. Works flawlessly on this platform.
+=scroll-margin= must be 0 as margins are not yet supported.
+
+#+BEGIN_SRC elisp
+(use-package ultra-scroll
+  :init
+  (setq scroll-conservatively 3
+        scroll-margin 0)
+  :config
+  (add-hook 'ultra-scroll-hide-functions 'hl-line-mode)
+  (ultra-scroll-mode 1))
+#+END_SRC
