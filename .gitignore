@@ -1,4 +1,6 @@
 *.elc
+config/*.el
+early-init.org.el
 eln-cache
 elpa
 transient
