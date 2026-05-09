@@ -63,7 +63,6 @@ sources.
 #+BEGIN_SRC
 ~/.emacs.d/
 ├── early-init.el          # bootstrap: loads early-init.org
-├── early-init.org         # pre-frame setup (GC tuning, GUI defaults)
 ├── init.el                # bootstrap: package setup, loads config/*.org
 ├── config/
 │   ├── core.org           # built-in settings, completion stack, magit, vterm
