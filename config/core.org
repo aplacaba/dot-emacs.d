@@ -38,6 +38,99 @@ instead of indentation when point is mid-word.
    custom-file "~/.emacs.d/custom.el"))
 #+END_SRC
 
+** Scratch
+
+Persistent, disposable scratch buffers. Scratches are unnamed by design
+— they hold throwaway thoughts and quick notes. When killed (or on Emacs
+exit), any scratch with content is saved to =~/.emacs-scratch/= with a
+timestamped filename. Empty scratches are silently deleted, keeping the
+buffer list tidy.
+
+#+BEGIN_SRC elisp
+(defvar my/scratch-dir "~/.emacs-scratch/"
+  "Directory for persisted scratch buffers.")
+
+(defun my/scratch--ensure-dir ()
+  "Create the scratch directory if it doesn't exist."
+  (make-directory my/scratch-dir t))
+
+(defun my/scratch--filename ()
+  "Return a timestamped filename for a scratch save."
+  (expand-file-name (format-time-string "%Y%m%dT%H%M%S.org") my/scratch-dir))
+
+(defun my/scratch--save (buffer)
+  "Save scratch BUFFER to a timestamped file if it has content."
+  (when (and (buffer-live-p buffer)
+             (string-prefix-p "*scratch" (buffer-name buffer))
+             (not (buffer-file-name buffer)))
+    (with-current-buffer buffer
+      (when (> (buffer-size) 0)
+        (my/scratch--ensure-dir)
+        (let ((filename (my/scratch--filename)))
+          (write-region (point-min) (point-max) filename nil 'silent)
+          (message "Scratch saved → %s" filename))))))
+
+(defun my/scratch--cleanup-empty ()
+  "Kill all empty scratch buffers (except the current one)."
+  (dolist (buf (buffer-list))
+    (when (and (string-prefix-p "*scratch" (buffer-name buf))
+               (not (eq buf (current-buffer)))
+               (buffer-live-p buf))
+      (with-current-buffer buf
+        (when (= (buffer-size) 0)
+          (kill-buffer buf))))))
+
+;;;###autoload
+(defun my/scratch ()
+  "Switch to the main *scratch* buffer, cleaning up empty scratches first.
+
+If *scratch* doesn't exist, it is created in `org-mode' (or whatever
+`initial-major-mode' is set to)."
+  (interactive)
+  (my/scratch--cleanup-empty)
+  (let ((buf (get-buffer "*scratch*")))
+    (unless buf
+      (setq buf (get-buffer-create "*scratch*")))
+    (switch-to-buffer buf))
+  (when (fboundp 'org-mode)
+    (unless (derived-mode-p 'org-mode)
+      (org-mode))))
+
+;;;###autoload
+(defun my/scratch-new ()
+  "Create a fresh scratch buffer with a unique name.
+
+Empty scratches are cleaned up first, so only scratches with content
+accumulate. The new buffer opens in `org-mode'."
+  (interactive)
+  (my/scratch--cleanup-empty)
+  (let ((buf (generate-new-buffer-name "*scratch*")))
+    (switch-to-buffer (get-buffer-create buf))
+    (when (fboundp 'org-mode)
+      (org-mode)))
+  (message "New scratch buffer created"))
+
+(defun my/scratch--save-on-kill (buffer &rest _)
+  "Save scratch BUFFER before it is killed.
+
+BUFFER may be a buffer object or a buffer name (string)."
+  (when buffer
+    (let ((buf (get-buffer buffer)))
+      (when buf
+        (my/scratch--save (or (buffer-base-buffer buf) buf))))))
+
+(defun my/scratch--save-all ()
+  "Save all live scratch buffers on Emacs exit."
+  (dolist (buf (buffer-list))
+    (my/scratch--save buf)))
+
+;; Advice kill-buffer to persist scratches before they disappear
+(advice-add 'kill-buffer :before #'my/scratch--save-on-kill)
+
+;; Save all scratches when Emacs exits
+(add-hook 'kill-emacs-hook #'my/scratch--save-all)
+#+END_SRC
+
 ** Magit
 
 Full-featured git porcelain. Transient level is set to 7 so all commands
@@ -232,7 +325,7 @@ Workspace and session management for isolating buffer groups.
   :bind
   ("C-x C-b" . persp-ibuffer)
   :custom
-  (persp-mode-prefix-key (kbd "C-c C-."))
+  (persp-mode-prefix-key (kbd "C-c C-p"))
   :init
   (persp-mode))
 #+END_SRC

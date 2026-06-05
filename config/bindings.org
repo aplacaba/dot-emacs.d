@@ -36,6 +36,8 @@ Splits that automatically move focus to the new window.
 (global-set-key (kbd "C-c r") 'rename-buffer)
 (global-set-key (kbd "C-c v") 'vundo)
 (define-key global-map [remap list-buffers] 'ibuffer)
+(global-set-key (kbd "C-c b") 'my/scratch)
+(global-set-key (kbd "C-c B") 'my/scratch-new)
 #+END_SRC
 
 ** Theme
