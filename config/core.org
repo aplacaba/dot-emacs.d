@@ -111,8 +111,13 @@ accumulate. The new buffer opens in `org-mode'."
   (message "New scratch buffer created"))
 
 (defun my/scratch--save-on-kill (buffer &rest _)
-  "Save scratch BUFFER before it is killed."
-  (my/scratch--save (or (buffer-base-buffer buffer) buffer)))
+  "Save scratch BUFFER before it is killed.
+
+BUFFER may be a buffer object or a buffer name (string)."
+  (when buffer
+    (let ((buf (get-buffer buffer)))
+      (when buf
+        (my/scratch--save (or (buffer-base-buffer buf) buf))))))
 
 (defun my/scratch--save-all ()
   "Save all live scratch buffers on Emacs exit."

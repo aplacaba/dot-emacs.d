@@ -13,8 +13,8 @@ for inline display.
   :init
   (setopt
    org-display-remote-inline-images 'download
-   org-agenda-files '("~/.notes/20250523T112215--tasks__work.org")
-   org-todo-keywords '((sequence "TODO" "DOING" "WAITING" "DONE")))
+   org-agenda-files (directory-files-recursively "~/.notes/" "\\.org$")
+   org-todo-keywords '((sequence "NEXT" "TODO" "DOING" "WAITING" "DONE")))
   :config
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)

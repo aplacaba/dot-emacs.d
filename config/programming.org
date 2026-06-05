@@ -94,6 +94,7 @@ definitions.
   :mode "\\.rb\\'"
   :mode "Rakefile\\'"
   :mode "Gemfile\\'"
+
   :bind (:map ruby-ts-mode-map
               ("C-c r b" . 'treesit-beginning-of-defun)
               ("C-c r e" . 'treesit-end-of-defun))
