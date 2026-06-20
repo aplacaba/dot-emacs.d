@@ -6,7 +6,7 @@ A modular Emacs configuration targeting Fedora Linux (primary), macOS 15, and Wi
 
 - Completion stack: Vertico + Corfu + Orderless + Consult + Cape + Tempel
 - Git: Magit with transient level 7
-- Terminal: vterm + vterm-toggle
+- Terminal: ghostel (libghostty-vt)
 - Navigation: Avy, switch-window, ripgrep, consult-line
 - Programming: Tree-sitter, flycheck, yasnippet, LSP-ready
 - Languages: TypeScript/JSX, Clojure (CIDER), Ruby, Elixir, Python, Common Lisp (SLIME), Nix, YAML, Terraform, Docker, CloudFormation
@@ -19,18 +19,18 @@ A modular Emacs configuration targeting Fedora Linux (primary), macOS 15, and Wi
 *** Linux (Fedora)
 
 #+BEGIN_SRC sh
-sudo dnf install libvterm ripgrep
+sudo dnf install ripgrep
 #+END_SRC
 
 *** macOS
 
 #+BEGIN_SRC sh
-brew install libvterm ripgrep roswell
+brew install ripgrep roswell
 #+END_SRC
 
 *** Windows
 
-- Install [[https://github.com/akermu/emacs-libvterm][libvterm]] or use eshell (vterm skipped on Windows automatically)
+- ghostel is skipped on Windows automatically (it supports macOS/Linux/FreeBSD only); use eshell there. The native module downloads automatically on first use — no system dependency required
 
 *** Optional
 
@@ -65,7 +65,7 @@ sources.
 ├── early-init.el          # bootstrap: loads early-init.org
 ├── init.el                # bootstrap: package setup, loads config/*.org
 ├── config/
-│   ├── core.org           # built-in settings, completion stack, magit, vterm
+│   ├── core.org           # built-in settings, completion stack, magit, ghostel
 │   ├── rice.org           # themes, fonts, modeline
 │   ├── nav.org            # avy, switch-window, ripgrep
 │   ├── notes.org          # org-mode, denote
@@ -94,8 +94,8 @@ Each module is a self-documenting org file. To edit the config, edit the
 | =C-x b=          | consult-buffer         |                            |
 | =C-x C-b=        | persp-ibuffer          | perspective workspaces     |
 | =C-c C-.=        | perspective prefix     |                            |
-| =s-t= / =C-M-t=  | vterm-toggle/cd        |                            |
-| =C-c t=          | vterm-copy-mode        |                            |
+| =s-t= / =C-M-t=  | ghostel toggle/cd      |                            |
+| =C-c t=          | ghostel-copy-mode      |                            |
 | =C-c n n=        | denote                 | create note                |
 | =C-c n o=        | denote-open-or-create  | open or create note        |
 | =C-c m m=        | modus-themes-toggle    |                            |

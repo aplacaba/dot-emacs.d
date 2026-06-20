@@ -13,7 +13,7 @@ Personal Emacs configuration targeting Fedora Linux (primary), macOS, and Window
 **Load order** (defined in `init.el`):
 1. `early-init.el` → loads `early-init.org` — GUI defaults, GC tuning
 2. `init.el` — package setup, then loads each module via `my/load-config`:
-   - `config/core.org` — built-in settings, magit, vterm, vertico/corfu/orderless/consult/cape completion stack, perspective, which-key
+   - `config/core.org` — built-in settings, magit, ghostel, vertico/corfu/orderless/consult/cape completion stack, perspective, which-key
    - `config/rice.org` — modus themes, fonts, doom-modeline, diminish, marginalia
    - `config/nav.org` — avy, switch-window, ripgrep, vundo
    - `config/notes.org` — org-mode, denote (notes in `~/.notes/`), org-download
@@ -42,6 +42,6 @@ Personal Emacs configuration targeting Fedora Linux (primary), macOS, and Window
 - `C-s` — consult-line-literal (replaces isearch)
 - `C-c s` — consult-ripgrep
 - `C-x C-b` — persp-ibuffer
-- `s-t` / `C-M-t` — vterm-toggle / vterm-toggle-cd
+- `s-t` / `C-M-t` — ghostel toggle / ghostel toggle-cd
 - `C-c n n` / `C-c n o` — denote create / open
 - `C-c m m` — modus-themes-toggle
