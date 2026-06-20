@@ -145,32 +145,69 @@ are visible by default.
    ("C-x g" . magit-status)))
 #+END_SRC
 
-** Vterm
+** Ghostel
 
-Terminal emulator using libvterm. Skipped on Windows via the =is-windows=
-check. The scrollback is set to 10,000 lines and the buffer is killed on
-exit. =hl-line-mode= is disabled inside vterm for readability.
+Terminal emulator powered by [[https://github.com/dakra/ghostel][libghostty-vt]]. Skipped on Windows via the
+=is-windows= check. The native module downloads automatically on first use, so
+no =libvterm= system dependency is required. Shell integration (directory
+tracking via OSC 7, prompt navigation) is on by default for bash, zsh and fish.
+=hl-line-mode= is disabled inside ghostel for readability.
+
+ghostel has no toggle package, so a few small helpers preserve the old
+=vterm-toggle= / =vterm-toggle-cd= / buffer-cycling workflow.
 
 #+BEGIN_SRC elisp
-(use-package vterm
+(use-package ghostel
   :unless is-windows
   :config
-  (setq vterm-max-scrollback 10000)
-  (setq vterm-kill-buffer-on-exit t)
-  (setq vterm-buffer-name-string "vterm - %s")
-  (define-key vterm-mode-map (kbd "C-q") #'vterm-send-next-key)
-  (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
-  (global-set-key (kbd "C-c t") 'vterm-copy-mode))
+  (add-hook 'ghostel-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
 
-(use-package vterm-toggle
-  :unless is-windows
-  :config
-  (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
-  (global-set-key (kbd "s-t") 'vterm-toggle)
-  (global-set-key (kbd "C-M-t") 'vterm-toggle-cd)
-  (define-key vterm-mode-map [(control return)]   #'vterm-toggle-insert-cd)
-  (define-key vterm-mode-map (kbd "s-n")   'vterm-toggle-forward)
-  (define-key vterm-mode-map (kbd "s-p")   'vterm-toggle-backward))
+  (defun my/ghostel--buffers ()
+    "Return live ghostel buffers in `buffer-list' order."
+    (seq-filter (lambda (b) (eq (buffer-local-value 'major-mode b) 'ghostel-mode))
+                (buffer-list)))
+
+  (defun my/ghostel-toggle ()
+    "Show or hide a ghostel terminal buffer (mimics `vterm-toggle')."
+    (interactive)
+    (let ((existing (my/ghostel--buffers)))
+      (cond
+       ((eq major-mode 'ghostel-mode) (bury-buffer))
+       (existing (switch-to-buffer (car existing)))
+       (t (ghostel)))))
+
+  (defun my/ghostel-toggle-cd ()
+    "Open or switch to ghostel at the current buffer's directory.
+Mimics `vterm-toggle-cd'.  When creating a terminal it starts in the
+current buffer's directory; shell integration keeps tracking afterwards."
+    (interactive)
+    (let ((dir (if-let ((file (buffer-file-name)))
+                   (file-name-directory file)
+                 default-directory)))
+      (if (my/ghostel--buffers)
+          (my/ghostel-toggle)
+        (let ((default-directory dir))
+          (ghostel)))))
+
+  (defun my/ghostel-next ()
+    "Switch to the next ghostel buffer (mimics `vterm-toggle-forward')."
+    (interactive)
+    (when-let ((next (cadr (memq (current-buffer) (my/ghostel--buffers)))))
+      (switch-to-buffer next)))
+
+  (defun my/ghostel-prev ()
+    "Switch to the previous ghostel buffer (mimics `vterm-toggle-backward')."
+    (interactive)
+    (when-let ((prev (cadr (memq (current-buffer) (reverse (my/ghostel--buffers))))))
+      (switch-to-buffer prev)))
+
+  ;; preserve muscle memory from the old vterm-toggle setup
+  (global-set-key (kbd "s-t")   #'my/ghostel-toggle)
+  (global-set-key (kbd "C-M-t") #'my/ghostel-toggle-cd)
+  (with-eval-after-load 'ghostel
+    (define-key ghostel-semi-char-mode-map (kbd "C-c t") #'ghostel-copy-mode)
+    (define-key ghostel-semi-char-mode-map (kbd "s-n")   #'my/ghostel-next)
+    (define-key ghostel-semi-char-mode-map (kbd "s-p")   #'my/ghostel-prev)))
 #+END_SRC
 
 ** Completion Stack
