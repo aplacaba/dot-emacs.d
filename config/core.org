@@ -156,6 +156,11 @@ tracking via OSC 7, prompt navigation) is on by default for bash, zsh and fish.
 ghostel has no toggle package, so a few small helpers preserve the old
 =vterm-toggle= / =vterm-toggle-cd= / buffer-cycling workflow.
 
+By default =M-x ghostel= reuses an existing =*ghostel*= buffer; an
+=:around= advice flips the interactive no-prefix case to always spawn a
+fresh buffer. Numeric prefixes (=M-2 M-x ghostel= → =*ghostel*<2>=) and
+non-interactive calls from the toggle helpers are left untouched.
+
 #+BEGIN_SRC elisp
 (use-package ghostel
   :unless is-windows
@@ -200,6 +205,16 @@ current buffer's directory; shell integration keeps tracking afterwards."
     (interactive)
     (when-let ((prev (cadr (memq (current-buffer) (reverse (my/ghostel--buffers))))))
       (switch-to-buffer prev)))
+
+  (defun my/ghostel--fresh-by-default (orig &optional arg)
+    "Advise `ghostel' to spawn a fresh buffer on interactive no-prefix calls.
+Non-interactive calls (e.g. from `my/ghostel-toggle') and numeric prefix
+args keep their original behavior."
+    (if (and (called-interactively-p 'any) (not arg))
+        (funcall orig '(4))
+      (funcall orig arg)))
+
+  (advice-add 'ghostel :around #'my/ghostel--fresh-by-default)
 
   ;; preserve muscle memory from the old vterm-toggle setup
   (global-set-key (kbd "s-t")   #'my/ghostel-toggle)
