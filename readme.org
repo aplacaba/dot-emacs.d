@@ -84,29 +84,43 @@ Each module is a self-documenting org file. To edit the config, edit the
 
 ** Key Bindings
 
-| Key              | Command                | Notes                      |
-|------------------+------------------------+----------------------------|
-| =C-t=            | translated to =C-x=     | Colemak layout             |
-| =M-o=            | other-window           |                            |
-| =C-M-g= / =C-x g= | magit-status          |                            |
-| =C-s=            | consult-line-literal   | replaces isearch           |
-| =C-c s=          | consult-ripgrep        |                            |
-| =C-x b=          | consult-buffer         |                            |
-| =C-x C-b=        | persp-ibuffer          | perspective workspaces     |
-| =C-c C-.=        | perspective prefix     |                            |
-| =s-t= / =C-M-t=  | ghostel toggle/cd      |                            |
-| =C-c t=          | ghostel-copy-mode      |                            |
-| =C-c n n=        | denote                 | create note                |
-| =C-c n o=        | denote-open-or-create  | open or create note        |
-| =C-c m m=        | modus-themes-toggle    |                            |
-| =C-c a=          | org-agenda             |                            |
-| =C-c c=          | org-capture            |                            |
-| =C-c d=          | docker                 |                            |
-| =C-:=            | avy-goto-char          |                            |
-| =M-g e=          | avy-goto-word-0        |                            |
-| =M-+=            | tempel-complete        | template expansion         |
-| =C-c p=          | cape prefix            | completion extensions      |
-| =C-h d=          | devdocs-lookup         |                            |
+| Key               | Command                | Notes                      |
+|-------------------+------------------------+----------------------------|
+| =C-t=             | translated to =C-x=    | Colemak layout             |
+| =M-o=             | other-window           |                            |
+| =C-M-g= / =C-x g= | magit-status           |                            |
+| =C-s=             | consult-line-literal   | replaces isearch           |
+| =C-c s=           | consult-ripgrep        |                            |
+| =C-x b=           | consult-buffer         |                            |
+| =C-c h=           | consult-history        |                            |
+| =C-c k=           | consult-kmacro         |                            |
+| =C-c i=           | consult-info           |                            |
+| =C-x C-b=         | persp-ibuffer          | perspective workspaces     |
+| =C-c C-p=         | perspective prefix     |                            |
+| =s-t= / =C-M-t=   | ghostel toggle / cd    |                            |
+| =C-c t=           | ghostel-copy-mode      |                            |
+| =s-n= / =s-p=     | ghostel next / prev    |                            |
+| =C-c n n=         | denote                 | create note                |
+| =C-c n o=         | denote-open-or-create  | open or create note        |
+| =C-c a=           | org-agenda             |                            |
+| =C-c c=           | org-capture            |                            |
+| =C-c l=           | org-store-link         |                            |
+| =C-c C-;=         | org-todo               |                            |
+| =C-c b=           | my/scratch             | switch to scratch          |
+| =C-c B=           | my/scratch-new         | new scratch                |
+| =C-c r=           | rename-buffer          |                            |
+| =C-c v=           | vundo                  | undo tree                  |
+| =C-x C-n=         | find-file              |                            |
+| =C-c m m=         | modus-themes-toggle    |                            |
+| =C-c d=           | docker                 |                            |
+| =C-:=             | avy-goto-char          |                            |
+| =M-g e=           | avy-goto-word-0        |                            |
+| =C-c C-j=         | avy-resume             |                            |
+| =M-+=             | tempel-complete        | template expansion         |
+| =M-*=             | tempel-insert          | template expansion         |
+| =M-/=             | dabbrev-completion     |                            |
+| =C-c p=           | cape prefix            | completion extensions      |
+| =C-h d=           | devdocs-lookup         |                            |
 
 ** Customizations
 
