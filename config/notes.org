@@ -32,7 +32,7 @@ Enables drag-and-drop and clipboard paste of images into org buffers.
 
 ** Denote
 
-File-based note-taking system. Notes are stored in =~/.notes/= with
+File-based note-taking system. Notes are stored in =~/Nextcloud/notes/= with
 keywords for categorization. Denote integrates with Dired for metadata
 display.
 
@@ -40,7 +40,7 @@ display.
 (use-package denote
   :init
   (setopt
-   denote-directory (expand-file-name "~/.notes/")
+   denote-directory (expand-file-name "~/Nextcloud/notes/")
    denote-sort-keywords t
    denote-known-keywords '("work" "personal" "finance" "urgent"))
   (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories))
