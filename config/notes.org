@@ -2,6 +2,51 @@
 
 Note-taking with org-mode and denote.
 
+** Notes Directory
+
+Org and Denote share one source of truth for the notes directory.
+
+#+BEGIN_SRC elisp
+(defcustom my/notes-directory (expand-file-name "~/Nextcloud/notes/")
+  "Directory containing my Denote notes."
+  :type 'directory
+  :group 'org)
+
+(defun my/org-agenda-refresh-files (&optional quiet)
+  "Refresh `org-agenda-files' from Org files in `my/notes-directory'.
+With QUIET non-nil, do not display a confirmation message."
+  (interactive)
+  (setq org-agenda-files
+        (when (file-directory-p my/notes-directory)
+          (directory-files-recursively my/notes-directory "\\.org\\'")))
+  (unless quiet
+    (message "Agenda now uses %d Denote note%s"
+             (length org-agenda-files)
+             (if (= (length org-agenda-files) 1) "" "s"))))
+
+(defun my/org-agenda-refresh-before-display (&rest _)
+  "Refresh the Denote-backed agenda file list before showing an agenda."
+  (my/org-agenda-refresh-files t))
+
+(defun my/org-agenda-denote-title ()
+  "Return the Denote title of the current agenda source file."
+  (if-let ((file buffer-file-name))
+      (or (and (fboundp 'denote-retrieve-title-or-filename)
+               (denote-retrieve-title-or-filename
+                file (denote-filetype-heuristics file)))
+          (file-name-base file))
+    ""))
+
+(defun my/org-agenda-dashboard ()
+  "Open my Denote-backed Org agenda dashboard full-frame."
+  (interactive)
+  (my/org-agenda-refresh-files t)
+  (org-agenda nil "d")
+  (when-let ((agenda-window (get-buffer-window org-agenda-buffer-name t)))
+    (select-window agenda-window)
+    (delete-other-windows)))
+#+END_SRC
+
 ** Org Mode
 
 Task management and document editing. Uses a custom TODO workflow
@@ -13,13 +58,79 @@ for inline display.
   :init
   (setopt
    org-display-remote-inline-images 'download
-   org-agenda-files (directory-files-recursively "~/.notes/" "\\.org$")
    org-todo-keywords '((sequence "NEXT" "TODO" "DOING" "WAITING" "DONE")))
   :config
+  (my/org-agenda-refresh-files t)
+  (advice-add 'org-agenda :before #'my/org-agenda-refresh-before-display)
+  (setopt
+   ;; EFFORT in these notes contains T-shirt sizes (S, M, L).  Reserve
+   ;; DURATION for optional Org-style time estimates such as "2h".
+   org-effort-property "DURATION"
+   org-agenda-prefix-format
+   '((agenda . " %i %-20.20(my/org-agenda-denote-title)")
+     (todo . " %i %-20.20(my/org-agenda-denote-title)")
+     (tags . " %i %-20.20(my/org-agenda-denote-title)")
+     (search . " %i %-20.20(my/org-agenda-denote-title)"))
+   org-agenda-tags-column 0
+   org-agenda-compact-blocks t
+   org-agenda-block-separator ?─
+   org-agenda-current-time-string "← now"
+   org-agenda-time-grid
+   '((daily today require-timed)
+     (800 1000 1200 1400 1600 1800 2000)
+     " ┄┄┄┄┄ " "────────────────")
+   org-agenda-sorting-strategy
+   '((agenda time-up priority-down category-keep)
+     (todo priority-down category-keep)
+     (tags priority-down category-keep)
+     (search category-keep))
+   org-agenda-custom-commands
+   '(("d" "Dashboard"
+      ((agenda ""
+               ((org-agenda-overriding-header "Schedule")
+                (org-agenda-span 7)
+                (org-agenda-start-on-weekday nil)
+                (org-agenda-show-log t)))
+       (todo "NEXT"
+             ((org-agenda-overriding-header "Next actions")))
+       (todo "DOING"
+             ((org-agenda-overriding-header "In progress")))
+       (todo "WAITING"
+             ((org-agenda-overriding-header "Waiting")))))))
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)
   (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c C-;") 'org-todo))
+#+END_SRC
+
+** Org Modern
+
+Applies a cleaner visual style to Org documents and agenda views without
+changing the underlying Org markup.
+
+#+BEGIN_SRC elisp
+(use-package org-modern
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda))
+#+END_SRC
+
+** Olivetti
+
+Center agenda content at a wide reading width.
+
+#+BEGIN_SRC elisp
+(use-package olivetti
+  :custom (olivetti-body-width 150)
+  :hook (org-agenda-mode . olivetti-mode))
+#+END_SRC
+
+** Startup Agenda
+
+Open the Denote-backed dashboard after Emacs finishes starting.
+
+#+BEGIN_SRC elisp
+(add-hook 'emacs-startup-hook #'my/org-agenda-dashboard)
 #+END_SRC
 
 ** Org Download
@@ -40,7 +151,7 @@ display.
 (use-package denote
   :init
   (setopt
-   denote-directory (expand-file-name "~/Nextcloud/notes/")
+   denote-directory my/notes-directory
    denote-sort-keywords t
    denote-known-keywords '("work" "personal" "finance" "urgent"))
   (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories))
